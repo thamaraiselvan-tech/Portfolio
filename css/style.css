@@ -58,7 +58,7 @@ img{max-width:100%}
 .btn-secondary:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
 
 /* ========== Hero ========== */
-.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:120px 24px 100px;text-align:center}
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:120px 24px 90px;text-align:center}
 .hero-bg-effects{position:absolute;inset:0;pointer-events:none}
 .gradient-orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.4;animation:float 8s ease-in-out infinite}
 .orb-1{width:400px;height:400px;background:#6366f1;top:10%;left:10%}
@@ -81,7 +81,7 @@ img{max-width:100%}
 .stat{text-align:center}
 .stat-number{display:block;font-size:2rem;font-weight:800}
 .stat-label{font-size:0.8rem;color:var(--text-3);text-transform:uppercase;letter-spacing:1px}
-.scroll-indicator{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--text-3);font-size:0.75rem;animation:bounce 2s infinite}
+.scroll-indicator{position:absolute;bottom:5px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--text-3);font-size:0.75rem;animation:bounce 2s infinite}
 .mouse{width:24px;height:38px;border:2px solid var(--text-3);border-radius:12px;position:relative}
 .wheel{width:4px;height:8px;background:var(--accent);border-radius:2px;position:absolute;top:6px;left:50%;transform:translateX(-50%);animation:scroll-wheel 2s infinite}
 @keyframes scroll-wheel{0%{opacity:1;top:6px}100%{opacity:0;top:20px}}
