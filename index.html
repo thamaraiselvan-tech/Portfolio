@@ -9,8 +9,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet"/>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script>(function(){emailjs.init('tEMj75LhaUCDRm58J');})();</script>
   <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
+  <script>(function(){emailjs.init('tEMj75LhaUCDRm58J');})();</script>
   <link rel="stylesheet" href="css/style.css"/>
 </head>
 <body>
@@ -61,8 +61,10 @@
       <div class="stat"><span class="stat-number gradient-text">10+</span><span class="stat-label">Technologies</span></div>
       <div class="stat"><span class="stat-number gradient-text">2</span><span class="stat-label">Years Learning</span></div>
     </div>
-  </div> <br> <br>
+  </div><br>
+  <div>
   <div class="scroll-indicator"><div class="mouse"><div class="wheel"></div></div><span>scroll</span></div>
+  </div>
 </section>
 
 <!-- ========== ABOUT ========== -->
@@ -201,7 +203,7 @@
   </div>
 </section>
 
-  <!-- ========== INTERNSHIPS ========== -->
+<!-- ========== INTERNSHIPS ========== -->
 <section class="section section-alt" id="internships">
   <div class="container">
     <div class="section-header animate-on-scroll">
@@ -223,6 +225,7 @@
     </div>
   </div>
 </section>
+
 
 <!-- ========== EDUCATION ========== -->
 <section class="section" id="education">
@@ -256,20 +259,41 @@
       <div class="section-line"></div>
     </div>
     <div class="achievements-grid">
-      <div class="achievement-card animate-on-scroll">
+      <div class="achievement-card animate-on-scroll"
+           data-icon="🏆"
+           data-title="Hackathon Participation"
+           data-date="2024 – Present"
+           data-description="Actively participating in national and college-level hackathons to sharpen rapid prototyping, team collaboration, and creative problem-solving skills under tight deadlines."
+           data-highlights="will be updated soon"
+           data-image="linear-gradient(135deg,#6366f1,#e040fb)">
         <div class="achievement-icon">🏆</div>
         <h3>Hackathon Participation</h3>
         <p>Actively participating in hackathons and coding competitions to sharpen problem-solving skills.</p>
+        <span class="card-hint">Click for details →</span>
       </div>
-      <div class="achievement-card animate-on-scroll">
+      <div class="achievement-card animate-on-scroll"
+           data-icon="📜"
+           data-title="Certifications"
+           data-date="2025 – Upcoming"
+           data-description="Pursuing industry-recognized certifications in Artificial Intelligence, Cloud Computing, and Full Stack Web Development to validate skills and stay current with evolving technologies."
+           data-highlights="will be updated soon"
+           data-image="linear-gradient(135deg,#00d4ff,#6366f1)">
         <div class="achievement-icon">📜</div>
         <h3>Certifications</h3>
         <p>Space reserved for upcoming certifications in AI, Cloud, and Web Development.</p>
+        <span class="card-hint">Click for details →</span>
       </div>
-      <div class="achievement-card animate-on-scroll">
+      <div class="achievement-card animate-on-scroll"
+           data-icon="🚀"
+           data-title="Open Source Contributions"
+           data-date="2024 – Present"
+           data-description="Contributing to the open source ecosystem by building and maintaining public repositories on GitHub, sharing reusable tools, and collaborating with developers worldwide."
+           data-highlights="Maintaining 3+ public repositories on GitHub|Built MindShield AI — an open-source manipulation detection tool|Created DocFy — AI document forgery detection system|Actively learning best practices for OSS contribution workflows"
+           data-image="linear-gradient(135deg,#f59e0b,#ef4444)">
         <div class="achievement-icon">🚀</div>
         <h3>Open Source</h3>
         <p>Contributing to open source projects and building public tools on GitHub.</p>
+        <span class="card-hint">Click for details →</span>
       </div>
     </div>
   </div>
@@ -334,6 +358,33 @@
   </div>
 </section>
 
+<!-- ========== ACHIEVEMENT MODAL ========== -->
+<div class="achievement-modal-overlay" id="achievement-modal">
+  <div class="achievement-modal">
+    <button class="achievement-modal-close" id="modal-close" aria-label="Close">&times;</button>
+    <div class="achievement-modal-image" id="modal-image">
+      <span class="achievement-modal-image-icon" id="modal-image-icon">🏆</span>
+    </div>
+    <div class="achievement-modal-body">
+      <div class="achievement-modal-meta">
+        <div class="achievement-modal-icon" id="modal-icon">🏆</div>
+        <div>
+          <h3 id="modal-title">Achievement Title</h3>
+          <span class="achievement-modal-date" id="modal-date">Date placeholder</span>
+        </div>
+      </div>
+      <p class="achievement-modal-desc" id="modal-desc">Description placeholder goes here.</p>
+      <div class="achievement-modal-highlights">
+        <h4>Highlights</h4>
+        <ul id="modal-highlights">
+          <li>Highlight placeholder 1</li>
+          <li>Highlight placeholder 2</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ========== FOOTER ========== -->
 <footer class="footer">
   <div class="container">
@@ -342,13 +393,16 @@
         <a href="#hero" class="nav-logo" style="font-size: medium;">Every expert was once a beginner who didn’t quit</a>
         <p>Building the future with code & AI</p>
       </div>
+      <div class="footer-links">
+        <a href="#about">About</a><a href="#skills">Skills</a><a href="#projects">Projects</a><a href="#contact">Contact</a>
+      </div>
       <div class="footer-socials">
         <a href="https://github.com/thamaraiselvan-tech" target="_blank" aria-label="GitHub"><svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
         <a href="https://www.linkedin.com/in/thamarai-selvan-s-40bb163b5" target="_blank" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
       </div>
     </div>
     <div class="footer-bottom">
-      <p>Built with ❤️ and code by Thamarai Selvan</p>
+      <p>&copy; 2025 Thamarai Selvan. Built with ❤️ and code.</p>
     </div>
   </div>
 </footer>
