@@ -431,7 +431,6 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 
-<<<<<<< HEAD
 /* ═══════════════════════════════════
    13. EMAILJS CONTACT FORM
    ═══════════════════════════════════ */
@@ -476,14 +475,10 @@ contactForm.addEventListener('submit', (e) => {
 /* ═══════════════════════════════════
    14. ACHIEVEMENT MODAL
    ═══════════════════════════════════ */
-=======
-/* ========== Achievement Modal ========== */
->>>>>>> 243300f9de147a910f6eae62c5b319a15b83fe5e
 (function () {
   const modal = document.getElementById('achievement-modal');
   const closeBtn = document.getElementById('modal-close');
   if (!modal || !closeBtn) return;
-<<<<<<< HEAD
   const $ = id => document.getElementById(id);
 
   function open(c) {
@@ -574,47 +569,3 @@ contactForm.addEventListener('submit', (e) => {
 
 
 
-=======
-
-  const modalIcon = document.getElementById('modal-icon');
-  const modalImageIcon = document.getElementById('modal-image-icon');
-  const modalImage = document.getElementById('modal-image');
-  const modalTitle = document.getElementById('modal-title');
-  const modalDate = document.getElementById('modal-date');
-  const modalDesc = document.getElementById('modal-desc');
-  const modalHighlights = document.getElementById('modal-highlights');
-
-  function openModal(card) {
-    modalIcon.textContent = card.dataset.icon;
-    modalImageIcon.textContent = card.dataset.icon;
-    modalImage.style.background = card.dataset.image;
-    modalTitle.textContent = card.dataset.title;
-    modalDate.textContent = card.dataset.date;
-    modalDesc.textContent = card.dataset.description;
-
-    const highlights = card.dataset.highlights.split('|');
-    modalHighlights.innerHTML = highlights.map(h => `<li>${h.trim()}</li>`).join('');
-
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeModal() {
-    modal.classList.remove('active');
-    document.body.style.overflow = '';
-  }
-
-  document.querySelectorAll('.achievement-card').forEach(card => {
-    card.addEventListener('click', () => openModal(card));
-  });
-
-  closeBtn.addEventListener('click', closeModal);
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) closeModal();
-  });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
-  });
-})();
-
->>>>>>> 243300f9de147a910f6eae62c5b319a15b83fe5e
