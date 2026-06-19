@@ -1,336 +1,543 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
+
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Thamarai Selvan — Full Stack Developer & AI Enthusiast</title>
-  <meta name="description" content="Portfolio of Thamarai Selvan — AI & DS Student, Aspiring Full Stack Developer."/>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet"/>
+  <meta name="description" content="Portfolio of Thamarai Selvan — AI & DS Student, Aspiring Full Stack Developer." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap"
+    rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script>(function(){emailjs.init('tEMj75LhaUCDRm58J');})();</script>
-  <link rel="stylesheet" href="css/style.css"/>
+  <script>(function () { emailjs.init('tEMj75LhaUCDRm58J'); })();</script>
+  <link rel="stylesheet" href="css/style.css?v=3.5" />
 </head>
+
 <body>
 
-<!-- ========== NAVBAR ========== -->
-<nav class="navbar" id="navbar">
-  <div class="nav-container">
-    <a href="#hero" class="nav-logo">&lt;TS /&gt;</a>
-    <ul class="nav-links" id="nav-links">
-      <li><a href="#hero" class="nav-link active">Home</a></li>
-      <li><a href="#about" class="nav-link">About</a></li>
-      <li><a href="#skills" class="nav-link">Skills</a></li>
-      <li><a href="#projects" class="nav-link">Projects</a></li>
-      <li><a href="#education" class="nav-link">Education</a></li>
-      <li><a href="#achievements" class="nav-link">Achievements</a></li>
-      <li><a href="#contact" class="nav-link">Contact</a></li>
-    </ul>
-    <div class="nav-actions">
-      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">🌙</button>
-      <button class="menu-toggle" id="menu-toggle" aria-label="Menu">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </div>
-</nav>
+  <!-- SCROLL PROGRESS -->
+  <div class="scroll-progress" id="scroll-progress"></div>
 
-<!-- ========== HERO ========== -->
-<section class="hero" id="hero">
-  <div class="hero-bg-effects">
-    <div class="gradient-orb orb-1"></div>
-    <div class="gradient-orb orb-2"></div>
-    <div class="gradient-orb orb-3"></div>
-    <div class="grid-overlay"></div>
-  </div>
-  <div class="hero-content">
-    <div class="hero-badge"><span class="badge-dot"></span> Available for opportunities</div>
-    <h1 class="hero-title">Hi, I'm <span class="gradient-text">Thamarai Selvan</span></h1>
-    <p class="hero-subtitle">I'm a <strong><span id="typing-text"></span><span class="typing-cursor">|</span></strong></p>
-    <p class="hero-description">Passionate about building impactful AI-powered products and scalable web applications.</p>
-    <div class="hero-cta">
-      <a href="#projects" class="btn btn-primary">View Projects</a>
-      <a href="#contact" class="btn btn-secondary">Contact Me</a>
-      <a href="#" class="btn btn-secondary" target="_blank">📄 Resume</a>
-    </div>
-    <div class="hero-stats">
-      <div class="stat"><span class="stat-number gradient-text">3+</span><span class="stat-label">Projects</span></div>
-      <div class="stat"><span class="stat-number gradient-text">10+</span><span class="stat-label">Technologies</span></div>
-      <div class="stat"><span class="stat-number gradient-text">2</span><span class="stat-label">Years Learning</span></div>
+  <!-- LOADING SCREEN (Split Curtain) -->
+  <div class="loader" id="loader">
+    <div class="loader-curtain loader-curtain-top"></div>
+    <div class="loader-curtain loader-curtain-bottom"></div>
+    <div class="loader-content">
+      <div class="loader-ring-wrap">
+        <svg class="loader-ring" viewBox="0 0 200 200" width="180" height="180">
+          <circle class="loader-ring-track" cx="100" cy="100" r="90" stroke-width="1" fill="none" />
+          <circle class="loader-ring-fill" cx="100" cy="100" r="90" stroke-width="3" fill="none" stroke-linecap="round"
+            style="stroke-dasharray:565.48;stroke-dashoffset:565.48" />
+        </svg>
+        <div class="loader-brand">
+          <img src="assets/loader-logo.png" alt="TS Logo" class="loader-brand-img" />
+        </div>
+      </div>
+      <div class="loader-meta">
+        <span class="loader-counter" id="loader-counter">0%</span>
+        <span class="loader-label">LOADING EXPERIENCE</span>
+      </div>
     </div>
   </div>
-  <div class="scroll-indicator"><div class="mouse"><div class="wheel"></div></div><span>scroll</span></div>
-</section>
 
-<!-- ========== ABOUT ========== -->
-<section class="section section-alt" id="about">
-  <div class="container">
-    <div class="section-header animate-on-scroll">
-      <span class="section-tag">About Me</span>
-      <h2 class="section-title">Get to know me better</h2>
-      <div class="section-line"></div>
-    </div>
-    <div class="about-grid">
-      <div class="animate-on-scroll">
-        <div class="image-frame">
-          <div class="image-placeholder">TS</div>
-          <div class="frame-border"></div>
-        </div>
-      </div>
-      <div class="about-text animate-on-scroll">
-        <h3>AI & DS Student | Aspiring Full Stack Developer</h3>
-        <p>I'm <strong>Thamarai Selvan</strong>, a B.Tech AI & Data Science student at Saranathan College of Engineering, India. I'm passionate about creating intelligent software that solves real-world problems.</p>
-        <p>My goal is to build strong technical skills across AI, full-stack development, and data analytics — ultimately working on impactful products at top global tech companies like <strong>Google, Microsoft, Amazon, and Apple</strong>.</p>
-        <p>I actively participate in hackathons, build real-world projects, and constantly learn new technologies. I'm open to freelance work, internships, and collaboration opportunities.</p>
-        <div class="about-interests">
-          <span class="interest-tag">🤖 AI</span>
-          <span class="interest-tag">🌐 Web Dev</span>
-          <span class="interest-tag">📊 Data Analytics</span>
-          <span class="interest-tag">💻 Software Engineering</span>
-          <span class="interest-tag">🧠 Machine Learning</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+  <!-- CUSTOM CURSOR -->
+  <div class="cursor-dot" id="cursor-dot"></div>
+  <div class="cursor-ring" id="cursor-ring"></div>
+  <div class="cursor-glow" id="cursor-glow"></div>
 
-<!-- ========== SKILLS ========== -->
-<section class="section" id="skills">
-  <div class="container">
-    <div class="section-header animate-on-scroll">
-      <span class="section-tag">Skills</span>
-      <h2 class="section-title">Technologies & tools I work with</h2>
-      <div class="section-line"></div>
-    </div>
-    <div class="skills-grid">
-      <div class="skill-card animate-on-scroll">
-        <div class="skill-card-header"><div class="skill-icon">🎨</div><h3>Frontend</h3></div>
-        <div class="skill-tags">
-          <span class="skill-tag">HTML5</span><span class="skill-tag">CSS3</span><span class="skill-tag">JavaScript</span><span class="skill-tag">Bootstrap</span>
-        </div>
-      </div>
-      <div class="skill-card animate-on-scroll">
-        <div class="skill-card-header"><div class="skill-icon">⚙️</div><h3>Backend</h3></div>
-        <div class="skill-tags">
-          <span class="skill-tag">Node.js</span><span class="skill-tag">APIs</span><span class="skill-tag">LLMs</span>
-        </div>
-      </div>
-      <div class="skill-card animate-on-scroll">
-        <div class="skill-card-header"><div class="skill-icon">💻</div><h3>Programming</h3></div>
-        <div class="skill-tags">
-          <span class="skill-tag">C</span><span class="skill-tag">C++</span><span class="skill-tag">Java</span><span class="skill-tag">Python</span><span class="skill-tag">MySQL</span>
-        </div>
-      </div>
-      <div class="skill-card animate-on-scroll">
-        <div class="skill-card-header"><div class="skill-icon">🧠</div><h3>AI / Data Science</h3></div>
-        <div class="skill-tags">
-          <span class="skill-tag">Machine Learning</span><span class="skill-tag">Data Analysis</span>
-        </div>
-      </div>
-      <div class="skill-card animate-on-scroll">
-        <div class="skill-card-header"><div class="skill-icon">🔧</div><h3>Tools</h3></div>
-        <div class="skill-tags">
-          <span class="skill-tag">Git</span><span class="skill-tag">GitHub</span><span class="skill-tag">VS Code</span>
-        </div>
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#hero" class="nav-logo" style="font-weight: 600;font-family: 'Inter', sans-serif;">Welcome</a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#hero" class="nav-link active">Home</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#skills" class="nav-link">Skills</a></li>
+        <li><a href="#projects" class="nav-link">Projects</a></li>
+        <li><a href="#internships" class="nav-link">Experience</a></li>
+        <li><a href="#education" class="nav-link">Education</a></li>
+        <li><a href="#achievements" class="nav-link">Achievements</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">🌙</button>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
       </div>
     </div>
-  </div>
-</section>
+  </nav>
 
-<!-- ========== PROJECTS ========== -->
-<section class="section section-alt" id="projects">
-  <div class="container">
-    <div class="section-header animate-on-scroll">
-      <span class="section-tag">Projects</span>
-      <h2 class="section-title">Things I've built so far</h2>
-      <div class="section-line"></div>
+  <!-- ═══════════ HERO ═══════════ -->
+  <section class="hero" id="hero">
+    <!-- Canvas for interactive particle constellation -->
+    <canvas class="hero-canvas" id="hero-canvas"></canvas>
+
+    <div class="hero-bg">
+      <div class="mesh-parallax" style="--speed: 0.15">
+        <div class="mesh-orb mesh-1"></div>
+      </div>
+      <div class="mesh-parallax" style="--speed: -0.1">
+        <div class="mesh-orb mesh-2"></div>
+      </div>
+      <div class="mesh-parallax" style="--speed: 0.05">
+        <div class="mesh-orb mesh-3"></div>
+      </div>
+      <div class="hero-grid"></div>
     </div>
-    <div class="projects-grid">
-      <!-- Project 1 -->
-      <div class="project-card animate-on-scroll">
-        <div class="project-image">
-          <div class="project-image-placeholder" style="background:linear-gradient(135deg,#6366f1,#e040fb)">🛡️</div>
-          <div class="project-overlay">
-            <a href="https://github.com/thamaraiselvan-tech" target="_blank" class="project-link">🔗</a>
+
+    <div class="hero-bg-text" aria-hidden="true">THAMARAI</div>
+
+    <div class="hero-content">
+      <div class="hero-left">
+        <div class="hero-badge reveal-item">
+          <span class="badge-pulse"></span>
+          <span>Available for opportunities</span>
+        </div>
+        <h1 class="hero-title">
+          <span class="text-line"><span class="text-inner" style="transition-delay:0.15s">Hi, I'm</span></span>
+          <span class="text-line"><span class="text-inner gradient-text" style="transition-delay:0.35s">Thamarai
+              Selvan</span></span>
+        </h1>
+        <p class="hero-subtitle reveal-item">I'm a <strong><span id="typing-text"></span><span
+              class="typing-cursor">|</span></strong></p>
+        <p class="hero-description reveal-item">Passionate about building impactful AI-powered products and scalable web
+          applications.</p>
+        <div class="hero-cta reveal-item">
+          <a href="#projects" class="btn btn-primary magnetic"><span>View Projects</span><span
+              class="btn-shimmer"></span></a>
+          <a href="#contact" class="btn btn-outline magnetic">Contact Me</a>
+          <a href="#" class="btn btn-outline magnetic" target="_blank">📄 Resume</a>
+        </div>
+        <div class="hero-stats reveal-item">
+          <div class="stat"><span class="stat-number" data-count="3" data-suffix="+">0</span><span
+              class="stat-label">Projects</span></div>
+          <div class="stat"><span class="stat-number" data-count="10" data-suffix="+">0</span><span
+              class="stat-label">Technologies</span></div>
+          <div class="stat"><span class="stat-number" data-count="2" data-suffix="">0</span><span
+              class="stat-label">Years Learning</span></div>
+        </div>
+      </div>
+      <div class="hero-right reveal-item">
+        <div class="hero-portrait">
+          <!-- 📸 Replace with: <img src="assets/your-photo.png" alt="Thamarai Selvan" class="portrait-img"/> -->
+          <img src="assets/hero-portrait.png" alt="Thamarai Selvan" class="portrait-img" />
+          <div class="portrait-border"></div>
+          <div class="portrait-glow"></div>
+          <div class="portrait-orbit"><span class="orbit-dot"></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section section-alt section-rounded" id="about">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-tag">About Me</span>
+        <h2 class="section-title">Get to know me better</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="about-grid">
+        <div class="animate-on-scroll anim-left">
+          <div class="image-frame">
+            <img src="assets/about-portrait.jpg" alt="Thamarai Selvan" class="about-img" />
+            <div class="frame-border"></div>
           </div>
         </div>
-        <div class="project-info">
-          <span class="project-number">01</span>
-          <h3>MindShield AI</h3>
-          <p>AI system for detecting psychological manipulation in digital media using advanced LLM models like Gemini and LLaMA 3.</p>
-          <div class="project-tech"><span>Python</span><span>Django</span><span>Gemini</span><span>LLaMA 3</span></div>
-          <a href="https://github.com/thamaraiselvan-tech" target="_blank" class="project-btn">View Code →</a>
-        </div>
-      </div>
-      <!-- Project 2 -->
-      <div class="project-card animate-on-scroll">
-        <div class="project-image">
-          <div class="project-image-placeholder" style="background:linear-gradient(135deg,#00d4ff,#6366f1)">📄</div>
-          <div class="project-overlay">
-            <a href="https://github.com/thamaraiselvan-tech" target="_blank" class="project-link">🔗</a>
+        <div class="about-text animate-on-scroll anim-right">
+          <h3>AI & DS Student | Aspiring Full Stack Developer</h3>
+          <p>I'm <strong>Thamarai Selvan</strong>, a B.Tech AI & Data Science student at Saranathan College of
+            Engineering, India. I'm passionate about creating intelligent software that solves real-world problems.</p>
+          <p>My goal is to build strong technical skills across AI, full-stack development, and data analytics —
+            ultimately working on impactful products at top global tech companies like <strong>Google, Microsoft,
+              Amazon, and Apple</strong>.</p>
+          <p>I actively participate in hackathons, build real-world projects, and constantly learn new technologies. I'm
+            open to freelance work, internships, and collaboration opportunities.</p>
+          <div class="about-interests">
+            <span class="interest-tag">🤖 AI</span>
+            <span class="interest-tag">🌐 Web Dev</span>
+            <span class="interest-tag">📊 Data Analytics</span>
+            <span class="interest-tag">💻 Software Engineering</span>
+            <span class="interest-tag">🧠 Machine Learning</span>
           </div>
         </div>
-        <div class="project-info">
-          <span class="project-number">02</span>
-          <h3>DocFy</h3>
-          <p>AI-powered system for detecting document forgery using Gemini LLM for intelligent analysis and verification.</p>
-          <div class="project-tech"><span>Python</span><span>FastAPI</span><span>Gemini</span></div>
-          <a href="https://github.com/thamaraiselvan-tech" target="_blank" class="project-btn">View Code →</a>
-        </div>
       </div>
-      <!-- Project 3 -->
-      <div class="project-card animate-on-scroll">
-        <div class="project-image">
-          <div class="project-image-placeholder" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">🔍</div>
-          <div class="project-overlay">
-            <a href="https://github.com/thamaraiselvan-tech" target="_blank" class="project-link">🔗</a>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>AI ENTHUSIAST</span><span class="marquee-dot">✦</span>
+      <span>FULL STACK DEVELOPER</span><span class="marquee-dot">✦</span>
+      <span>PROBLEM SOLVER</span><span class="marquee-dot">✦</span>
+      <span>DATA SCIENTIST</span><span class="marquee-dot">✦</span>
+      <span>MACHINE LEARNING</span><span class="marquee-dot">✦</span>
+      <span>AI ENTHUSIAST</span><span class="marquee-dot">✦</span>
+      <span>FULL STACK DEVELOPER</span><span class="marquee-dot">✦</span>
+      <span>PROBLEM SOLVER</span><span class="marquee-dot">✦</span>
+      <span>DATA SCIENTIST</span><span class="marquee-dot">✦</span>
+      <span>MACHINE LEARNING</span><span class="marquee-dot">✦</span>
+    </div>
+  </div>
+
+  <!-- SKILLS -->
+  <section class="section section-rounded" id="skills">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-tag">Skills</span>
+        <h2 class="section-title">Technologies & tools I work with</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-card glow-card shine-card animate-on-scroll" style="transition-delay:0s">
+          <div class="skill-card-header">
+            <div class="skill-icon">🎨</div>
+            <h3>Frontend</h3>
+          </div>
+          <div class="skill-tags"><span class="skill-tag">HTML5</span><span class="skill-tag">CSS3</span><span
+              class="skill-tag">JavaScript</span><span class="skill-tag">Bootstrap</span></div>
+        </div>
+        <div class="skill-card glow-card shine-card animate-on-scroll" style="transition-delay:0.12s">
+          <div class="skill-card-header">
+            <div class="skill-icon">⚙️</div>
+            <h3>Backend</h3>
+          </div>
+          <div class="skill-tags"><span class="skill-tag">Node.js</span><span class="skill-tag">APIs</span><span
+              class="skill-tag">LLMs</span></div>
+        </div>
+        <div class="skill-card glow-card shine-card animate-on-scroll" style="transition-delay:0.24s">
+          <div class="skill-card-header">
+            <div class="skill-icon">💻</div>
+            <h3>Programming</h3>
+          </div>
+          <div class="skill-tags"><span class="skill-tag">C</span><span class="skill-tag">C++</span><span
+              class="skill-tag">Java</span><span class="skill-tag">Python</span><span class="skill-tag">MySQL</span>
           </div>
         </div>
-        <div class="project-info">
-          <span class="project-number">03</span>
-          <h3>BIS Standards Recommendation Engine</h3>
-          <p>Smart recommendation engine for Bureau of Indian Standards, helping users discover relevant standards effortlessly.</p>
-          <div class="project-tech"><span>Python</span><span>Flask</span></div>
-          <a href="https://github.com/thamaraiselvan-tech" target="_blank" class="project-btn">View Code →</a>
+        <div class="skill-card glow-card shine-card animate-on-scroll" style="transition-delay:0.36s">
+          <div class="skill-card-header">
+            <div class="skill-icon">🧠</div>
+            <h3>AI / Data Science</h3>
+          </div>
+          <div class="skill-tags"><span class="skill-tag">Machine Learning</span><span class="skill-tag">Data
+              Analysis</span></div>
+        </div>
+        <div class="skill-card glow-card shine-card animate-on-scroll" style="transition-delay:0.48s">
+          <div class="skill-card-header">
+            <div class="skill-icon">🔧</div>
+            <h3>Tools</h3>
+          </div>
+          <div class="skill-tags"><span class="skill-tag">Git</span><span class="skill-tag">GitHub</span><span
+              class="skill-tag">VS Code</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="section section-alt section-rounded" id="projects">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-tag">Projects</span>
+        <h2 class="section-title">Things I've built so far</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="projects-grid">
+        <div class="project-card glow-card shine-card animate-on-scroll" data-tilt>
+          <div class="project-image">
+            <div class="project-image-placeholder" style="background:linear-gradient(135deg,#6366f1,#e040fb)">🛡️</div>
+            <div class="project-overlay"><a href="https://github.com/thamaraiselvan-tech/MindShield-AI.git"
+                target="_blank" class="project-link">🔗</a></div>
+          </div>
+          <div class="project-info">
+            <span class="project-number">01</span>
+            <h3>MindShield AI</h3>
+            <p>AI system for detecting psychological manipulation in digital media using advanced LLM models like Gemini
+              and LLaMA 3.</p>
+            <div class="project-tech"><span>Python</span><span>Django</span><span>Gemini</span><span>LLaMA 3</span>
+            </div>
+            <a href="https://github.com/thamaraiselvan-tech/MindShield-AI.git" target="_blank" class="project-btn">View
+              Code →</a>
+          </div>
+        </div>
+        <div class="project-card glow-card shine-card animate-on-scroll" data-tilt>
+          <div class="project-image">
+            <div class="project-image-placeholder" style="background:linear-gradient(135deg,#00d4ff,#6366f1)">📄</div>
+            <div class="project-overlay"><a href="https://github.com/thamaraiselvan-tech/DocFy.git" target="_blank"
+                class="project-link">🔗</a></div>
+          </div>
+          <div class="project-info">
+            <span class="project-number">02</span>
+            <h3>DocFy</h3>
+            <p>AI-powered system for detecting document forgery using Gemini LLM for intelligent analysis and
+              verification.</p>
+            <div class="project-tech"><span>Python</span><span>FastAPI</span><span>Gemini</span></div>
+            <a href="https://github.com/thamaraiselvan-tech/DocFy.git" target="_blank" class="project-btn">View Code
+              →</a>
+          </div>
+        </div>
+        <div class="project-card glow-card shine-card animate-on-scroll" data-tilt>
+          <div class="project-image">
+            <div class="project-image-placeholder" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">🔍</div>
+            <div class="project-overlay"><a href="https://github.com/thamaraiselvan-tech/BIS-Standards-Engine.git"
+                target="_blank" class="project-link">🔗</a></div>
+          </div>
+          <div class="project-info">
+            <span class="project-number">03</span>
+            <h3>BIS Standards Recommendation Engine</h3>
+            <p>Smart recommendation engine for Bureau of Indian Standards, helping users discover relevant standards
+              effortlessly.</p>
+            <div class="project-tech"><span>Python</span><span>Flask</span></div>
+            <a href="https://github.com/thamaraiselvan-tech/BIS-Standards-Engine.git" target="_blank"
+              class="project-btn">View Code →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTERNSHIPS -->
+  <section class="section section-rounded" id="internships">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-tag">Internships</span>
+        <h2 class="section-title">Professional experience</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="timeline animate-on-scroll">
+        <div class="timeline-item">
+          <div class="timeline-dot">💼</div>
+          <div class="timeline-content">
+            <span class="timeline-date">July - September 2026</span>
+            <h3>Artificial Intelligence Intern</h3>
+            <h4>InternsForge Skill India Pvt. Ltd.</h4>
+            <p>Staring from July 2026</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section class="section section-alt section-rounded" id="education">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-tag">Education</span>
+        <h2 class="section-title">My academic journey</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="timeline animate-on-scroll">
+        <div class="timeline-item">
+          <div class="timeline-dot">🎓</div>
+          <div class="timeline-content">
+            <span class="timeline-date">2025 – 2029</span>
+            <h3>B.Tech — Artificial Intelligence & Data Science</h3>
+            <h4>Saranathan College of Engineering</h4>
+            <p>Currently entering 2nd year. Focusing on AI, Machine Learning, Data Science, and Full Stack Development.
+            </p>
+            <div class="timeline-tags"><span>AI</span><span>Data Science</span><span>Machine Learning</span><span>Full
+                Stack</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACHIEVEMENTS -->
+  <section class="section section-rounded" id="achievements">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-tag">Achievements</span>
+        <h2 class="section-title">Milestones & certifications</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="achievements-grid">
+        <div class="achievement-card shine-card animate-on-scroll" style="transition-delay:0s" data-icon="🏆"
+          data-title="Hackathon Participation" data-date="2024 – Present"
+          data-description="Actively participating in national and college-level hackathons to sharpen rapid prototyping, team collaboration, and creative problem-solving skills under tight deadlines."
+          data-image="linear-gradient(135deg,#6366f1,#e040fb)"
+          data-grid='[
+          {"title":"HackWell 2026","desc":"Finalist certificate for MindShield AI - Psychological Manipulation detector.","bg":"url(assets/Hackwell.jpeg)"},
+          {"title":"Thinkroot x Vortex Hackathon 2026, NIT","desc":"Participation certificate for DocFy - AI System for document forgery detection.","bg":"url(assets/nitt.jpg)"},
+          {"title":"TechSpark - 2026, A National level Technical Symposium","desc":"Won 2nd prize in Ideathon at J.J. College of Engineering and Technology.","bg":"url(assets/Ideathon.jpeg)"},
+          {"title":"EEENIX 2026, A National level Technical Symposium","desc":"Won 3rd prize in the Projet Expo event held at Govt. College of Engineering, Srirangam.","bg":"url(assets/ProjectExpo.jpeg)"}]'>
+          <div class="achievement-icon">🏆</div>
+          <h3>Hackathon Participation</h3>
+          <p>Actively participating in hackathons and coding competitions to sharpen problem-solving skills.</p>
+          <span class="card-hint">Click for details →</span>
+        </div>
+        <div class="achievement-card shine-card animate-on-scroll" style="transition-delay:0.12s" data-icon="📜"
+          data-title="Certifications" data-date="2025 – Upcoming"
+          data-description="Pursuing industry-recognized certifications in Artificial Intelligence, Cloud Computing, and Full Stack Web Development to validate skills and stay current with evolving technologies."
+          data-image="linear-gradient(135deg,#00d4ff,#6366f1)"
+          data-grid='[
+          {"title":"Microsoft Applied Skills","desc":"Completed certification in Microsoft applied skills in Generating reports with AI Agents.","bg":"url(assets/Microsoft.png)"},
+          {"title":"Diploma in Advanced Computer Programming","desc":"Pursued a six month course in advanced computer programming at a certified institution.","bg":"url(assets/DACP.jpeg)"},
+          {"title":"Front-End Developer","desc":"Pursued a certification in front-end web development.","bg":"url(assets/FD.jpeg)"}
+          ]'>
+          <div class="achievement-icon">📜</div>
+          <h3>Certifications</h3>
+          <p>Space reserved for upcoming certifications in AI, Cloud, and Web Development.</p>
+          <span class="card-hint">Click for details →</span>
+        </div>
+        <div class="achievement-card shine-card animate-on-scroll" style="transition-delay:0.24s" data-icon="🚀"
+          data-title="Open Source Contributions" data-date="2024 – Present"
+          data-description="Contributing to the open source ecosystem by building and maintaining public repositories on GitHub, sharing reusable tools, and collaborating with developers worldwide."
+          data-highlights="Maintaining 3+ public repositories on GitHub|Built MindShield AI — an open-source manipulation detection tool|Created DocFy — AI document forgery detection system|Actively learning best practices for OSS contribution workflows"
+          data-image="linear-gradient(135deg,#f59e0b,#ef4444)">
+          <div class="achievement-icon">🚀</div>
+          <h3>Open Source</h3>
+          <p>Contributing to open source projects and building public tools on GitHub.</p>
+          <span class="card-hint">Click for details →</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section section-alt section-rounded" id="contact">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-tag">Contact</span>
+        <h2 class="section-title">Get in touch</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-info animate-on-scroll anim-left">
+          <h3>Let's work together</h3>
+          <p>Have a project in mind or want to collaborate? Feel free to reach out!</p>
+          <div class="contact-details">
+            <div class="contact-item">
+              <div class="contact-icon">📧</div>
+              <div><span>Email<br></span><a
+                  href="mailto:thamaraiselvan.tech@gmail.com">thamaraiselvan.tech@gmail.com</a></div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="#fff">
+                  <path
+                    d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                </svg></div>
+              <div><span>LinkedIn<br></span><a href="https://www.linkedin.com/in/thamarai-selvan-s-40bb163b5"
+                  target="_blank">Thamarai Selvan</a></div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="#fff">
+                  <path
+                    d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+                </svg></div>
+              <div><span>GitHub<br></span><a href="https://github.com/thamaraiselvan-tech"
+                  target="_blank">thamaraiselvan-tech</a></div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon">📍</div>
+              <div><span>Location</span>
+                <p>India</p>
+              </div>
+            </div>
+          </div>
+          <div class="contact-socials">
+            <a href="https://github.com/thamaraiselvan-tech" target="_blank" class="social-link"
+              aria-label="GitHub"><svg viewBox="0 0 24 24">
+                <path
+                  d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+              </svg></a>
+            <a href="https://www.linkedin.com/in/thamarai-selvan-s-40bb163b5" target="_blank" class="social-link"
+              aria-label="LinkedIn"><svg viewBox="0 0 24 24">
+                <path
+                  d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+              </svg></a>
+            <a href="mailto:thamaraiselvan.tech@gmail.com" class="social-link" aria-label="Email"><svg
+                viewBox="0 0 24 24">
+                <path
+                  d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+              </svg></a>
+          </div>
+        </div>
+        <form class="contact-form animate-on-scroll anim-right" id="contact-form">
+          <div class="form-group">
+            <input type="text" id="name" name="from_name" placeholder=" " required />
+            <label for="name">Your Name</label>
+            <span class="error-msg">Please enter your name</span>
+          </div>
+          <div class="form-group">
+            <input type="email" id="email" name="from_email" placeholder=" " required />
+            <label for="email">Your Email</label>
+            <span class="error-msg">Please enter a valid email</span>
+          </div>
+          <div class="form-group">
+            <textarea id="message" name="message" rows="5" placeholder=" " required></textarea>
+            <label for="message">Your Message</label>
+            <span class="error-msg">Please enter a message</span>
+          </div>
+          <div class="form-status" id="form-status"></div>
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center"><span>Send
+              Message</span><span class="btn-shimmer"></span></button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODAL -->
+  <div class="achievement-modal-overlay" id="achievement-modal">
+    <div class="achievement-modal">
+      <button class="achievement-modal-close" id="modal-close" aria-label="Close">&times;</button>
+      <div class="achievement-modal-image" id="modal-image">
+        <span class="achievement-modal-image-icon" id="modal-image-icon">🏆</span>
+      </div>
+      <div class="achievement-modal-body" style="max-height: 80vh; overflow-y: auto;">
+        <div class="achievement-modal-meta">
+          <div class="achievement-modal-icon" id="modal-icon">🏆</div>
+          <div>
+            <h3 id="modal-title">Title</h3><span class="achievement-modal-date" id="modal-date">Date</span>
+          </div>
+        </div>
+        <p class="achievement-modal-desc" id="modal-desc">Description</p>
+        <div class="achievement-modal-gallery" id="modal-gallery" style="display:none">
+          <h4>Certificates & Artifacts</h4>
+          <div class="achievement-gallery-grid" id="modal-gallery-grid"></div>
         </div>
       </div>
     </div>
   </div>
-</section>
 
-<!-- ========== EDUCATION ========== -->
-<section class="section" id="education">
-  <div class="container">
-    <div class="section-header animate-on-scroll">
-      <span class="section-tag">Education</span>
-      <h2 class="section-title">My academic journey</h2>
-      <div class="section-line"></div>
-    </div>
-    <div class="timeline animate-on-scroll">
-      <div class="timeline-item">
-        <div class="timeline-dot">🎓</div>
-        <div class="timeline-content">
-          <span class="timeline-date">2025 – 2029</span>
-          <h3>B.Tech — Artificial Intelligence & Data Science</h3>
-          <h4>Saranathan College of Engineering</h4>
-          <p>Currently entering 2nd year. Focusing on AI, Machine Learning, Data Science, and Full Stack Development.</p>
-          <div class="timeline-tags"><span>AI</span><span>Data Science</span><span>Machine Learning</span><span>Full Stack</span></div>
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-big-text animate-on-scroll">
+        <h2>LET'S BUILD<br><span class="gradient-text">SOMETHING GREAT</span></h2>
+      </div>
+      <div class="footer-content">
+        <div class="footer-brand">
+          <span class="footer-quote">"Every expert was once a beginner who didn't quit"</span>
+          <p>Building the future with code & AI</p>
+        </div>
+        <div class="footer-links"><a href="#about">About</a><a href="#skills">Skills</a><a
+            href="#projects">Projects</a><a href="#contact">Contact</a></div>
+        <div class="footer-socials">
+          <a href="https://github.com/thamaraiselvan-tech" target="_blank" aria-label="GitHub"><svg viewBox="0 0 24 24">
+              <path
+                d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+            </svg></a>
+          <a href="https://www.linkedin.com/in/thamarai-selvan-s-40bb163b5" target="_blank" aria-label="LinkedIn"><svg
+              viewBox="0 0 24 24">
+              <path
+                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+            </svg></a>
         </div>
       </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Thamarai Selvan. Built with ❤️ and code.</p>
+      </div>
     </div>
-  </div>
-</section>
+  </footer>
 
-<!-- ========== ACHIEVEMENTS ========== -->
-<section class="section section-alt" id="achievements">
-  <div class="container">
-    <div class="section-header animate-on-scroll">
-      <span class="section-tag">Achievements</span>
-      <h2 class="section-title">Milestones & certifications</h2>
-      <div class="section-line"></div>
-    </div>
-    <div class="achievements-grid">
-      <div class="achievement-card animate-on-scroll">
-        <div class="achievement-icon">🏆</div>
-        <h3>Hackathon Participation</h3>
-        <p>Actively participating in hackathons and coding competitions to sharpen problem-solving skills.</p>
-      </div>
-      <div class="achievement-card animate-on-scroll">
-        <div class="achievement-icon">📜</div>
-        <h3>Certifications</h3>
-        <p>Space reserved for upcoming certifications in AI, Cloud, and Web Development.</p>
-      </div>
-      <div class="achievement-card animate-on-scroll">
-        <div class="achievement-icon">🚀</div>
-        <h3>Open Source</h3>
-        <p>Contributing to open source projects and building public tools on GitHub.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ========== CONTACT ========== -->
-<section class="section" id="contact">
-  <div class="container">
-    <div class="section-header animate-on-scroll">
-      <span class="section-tag">Contact</span>
-      <h2 class="section-title">Get in touch</h2>
-      <div class="section-line"></div>
-    </div>
-    <div class="contact-grid">
-      <div class="contact-info animate-on-scroll">
-        <h3>Let's work together</h3>
-        <p>Have a project in mind or want to collaborate? Feel free to reach out!</p>
-        <div class="contact-details">
-          <div class="contact-item">
-            <div class="contact-icon">📧</div>
-            <div><span>Email <br></span><a href="mailto:thamaraiselvan.tech@gmail.com">thamaraiselvan.tech@gmail.com</a></div>
-          </div>
-          <div class="contact-item">
-            <div class="contact-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="#fff"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></div>
-            <div><span>LinkedIn <br></span><a href="https://www.linkedin.com/in/thamarai-selvan-s-40bb163b5" target="_blank">Thamarai Selvan</a></div>
-          </div>
-          <div class="contact-item">
-            <div class="contact-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="#fff"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></div>
-            <div><span>GitHub <br></span><a href="https://github.com/thamaraiselvan-tech" target="_blank">thamaraiselvan-tech</a></div>
-          </div>
-          <div class="contact-item">
-            <div class="contact-icon">📍</div>
-            <div><span>Location</span><p>India</p></div>
-          </div>
-        </div>
-        <div class="contact-socials">
-          <a href="https://github.com/thamaraiselvan-tech" target="_blank" class="social-link" aria-label="GitHub"><svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
-          <a href="https://www.linkedin.com/in/thamarai-selvan-s-40bb163b5" target="_blank" class="social-link" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
-          <a href="mailto:thamaraiselvan.tech@gmail.com" class="social-link" aria-label="Email"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></a>
-        </div>
-      </div>
-      <form class="contact-form animate-on-scroll" id="contact-form">
-        <div class="form-group">
-          <input type="text" id="name" name="from_name" placeholder=" " required/>
-          <label for="name">Your Name</label>
-          <span class="error-msg">Please enter your name</span>
-        </div>
-        <div class="form-group">
-          <input type="email" id="email" name="from_email" placeholder=" " required/>
-          <label for="email">Your Email</label>
-          <span class="error-msg">Please enter a valid email</span>
-        </div>
-        <div class="form-group">
-          <textarea id="message" name="message" rows="5" placeholder=" " required></textarea>
-          <label for="message">Your Message</label>
-          <span class="error-msg">Please enter a message</span>
-        </div>
-        <div class="form-status" id="form-status"></div>
-        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">Send Message</button>
-      </form>
-    </div>
-  </div>
-</section>
-
-<!-- ========== FOOTER ========== -->
-<footer class="footer">
-  <div class="container">
-    <div class="footer-content">
-      <div class="footer-brand">
-        <a href="#hero" class="nav-logo">&lt;TS /&gt;</a>
-        <p>Building the future with code & AI</p>
-      </div>
-      <div class="footer-links">
-        <a href="#about">About</a><a href="#skills">Skills</a><a href="#projects">Projects</a><a href="#contact">Contact</a>
-      </div>
-      <div class="footer-socials">
-        <a href="https://github.com/thamaraiselvan-tech" target="_blank" aria-label="GitHub"><svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
-        <a href="https://www.linkedin.com/in/thamarai-selvan-s-40bb163b5" target="_blank" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>&copy; 2025 Thamarai Selvan. Built with ❤️ and code.</p>
-    </div>
-  </div>
-</footer>
-
-<script src="js/main.js"></script>
+  <!-- BACK TO TOP BUTTON REMOVED -->
+  <script src="js/main.js?v=3.5"></script>
 </body>
+
 </html>
