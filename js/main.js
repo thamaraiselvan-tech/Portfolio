@@ -195,38 +195,120 @@ const scrollProgress = document.getElementById('scroll-progress');
   const dot = document.getElementById('cursor-dot');
   const ring = document.getElementById('cursor-ring');
   const glow = document.getElementById('cursor-glow');
+  const canvas = document.getElementById('cursor-canvas');
   if (!dot || !ring) return;
 
   let mx = -100, my = -100, rx = -100, ry = -100, gx = -100, gy = -100;
+  let particles = [];
+  let hue = 0;
+
+  // Setup Canvas Context
+  let ctx = null;
+  if (canvas) {
+    ctx = canvas.getContext('2d');
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+  }
 
   document.addEventListener('mousemove', (e) => {
-    mx = e.clientX; my = e.clientY;
+    const prevX = mx;
+    const prevY = my;
+    mx = e.clientX;
+    my = e.clientY;
     dot.style.transform = `translate(${mx - 4}px, ${my - 4}px)`;
+
+    // Spawn sparks based on speed
+    if (ctx && prevX !== -100) {
+      const dx = mx - prevX;
+      const dy = my - prevY;
+      const speed = Math.sqrt(dx * dx + dy * dy);
+      const count = Math.min(Math.floor(speed / 4), 6);
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: mx + (Math.random() - 0.5) * 6,
+          y: my + (Math.random() - 0.5) * 6,
+          vx: (Math.random() - 0.5) * 1.5 - dx * 0.1,
+          vy: (Math.random() - 0.5) * 1.5 - dy * 0.1,
+          size: Math.random() * 2.5 + 1.2,
+          opacity: 0.95,
+          hue: hue,
+          decay: Math.random() * 0.02 + 0.015
+        });
+      }
+    }
   });
-  document.addEventListener('mouseenter', () => { dot.style.opacity = '1'; ring.style.opacity = '1'; });
-  document.addEventListener('mouseleave', () => { dot.style.opacity = '0'; ring.style.opacity = '0'; if (glow) glow.style.opacity = '0'; });
+
+  document.addEventListener('mouseenter', () => {
+    dot.style.opacity = '1';
+    ring.style.opacity = '1';
+    if (canvas) canvas.style.opacity = '1';
+  });
+
+  document.addEventListener('mouseleave', () => {
+    dot.style.opacity = '0';
+    ring.style.opacity = '0';
+    if (glow) glow.style.opacity = '0';
+    if (canvas) canvas.style.opacity = '0';
+  });
 
   function loop() {
-    rx += (mx - rx) * 0.1;
-    ry += (my - ry) * 0.1;
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
     ring.style.transform = `translate(${rx - 24}px, ${ry - 24}px)`;
+
     if (glow) {
       gx += (mx - gx) * 0.05;
       gy += (my - gy) * 0.05;
       glow.style.transform = `translate(${gx - 150}px, ${gy - 150}px)`;
       glow.style.opacity = '1';
     }
+
+    if (ctx) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      hue = (hue + 1.5) % 360;
+
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.opacity -= p.decay;
+        p.size *= 0.97;
+
+        if (p.opacity <= 0 || p.size <= 0.2) {
+          particles.splice(i, 1);
+          continue;
+        }
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(${p.hue}, 90%, 65%, ${p.opacity})`;
+        ctx.shadowBlur = p.size * 2.5;
+        ctx.shadowColor = `hsla(${p.hue}, 90%, 65%, ${p.opacity * 0.8})`;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+    }
+
     requestAnimationFrame(loop);
   }
   loop();
 
-  // Cursor hover states
-  setTimeout(() => {
-    document.querySelectorAll('a, button, .project-card, .skill-card, .achievement-card, .btn, input, textarea, .interest-tag, .social-link, .skill-tag').forEach(el => {
-      el.addEventListener('mouseenter', () => { ring.classList.add('active'); dot.classList.add('active'); });
-      el.addEventListener('mouseleave', () => { ring.classList.remove('active'); dot.classList.remove('active'); });
-    });
-  }, 300);
+  // Cursor hover states (using event delegation to support dynamically created elements)
+  document.addEventListener('mouseover', (e) => {
+    if (!e.target || typeof e.target.closest !== 'function') return;
+    const target = e.target.closest('a, button, .project-card, .skill-card, .achievement-card, .btn, input, textarea, .interest-tag, .social-link, .skill-tag, .gallery-item');
+    if (target) {
+      ring.classList.add('active');
+      dot.classList.add('active');
+    } else {
+      ring.classList.remove('active');
+      dot.classList.remove('active');
+    }
+  });
 })();
 
 /* ═══════════════════════════════════
@@ -480,6 +562,9 @@ contactForm.addEventListener('submit', (e) => {
   const closeBtn = document.getElementById('modal-close');
   if (!modal || !closeBtn) return;
   const $ = id => document.getElementById(id);
+  const modalBody = modal.querySelector('.achievement-modal-body');
+
+
 
   function open(c) {
     $('modal-icon').textContent = c.dataset.icon;
@@ -488,7 +573,12 @@ contactForm.addEventListener('submit', (e) => {
     $('modal-title').textContent = c.dataset.title;
     $('modal-date').textContent = c.dataset.date;
     $('modal-desc').textContent = c.dataset.description;
-    
+
+    // Reset scroll position to top when opening modal
+    if (modalBody) {
+      modalBody.scrollTop = 0;
+    }
+
     // Populate certificate grid gallery if present
     const gallery = $('modal-gallery');
     const grid = $('modal-gallery-grid');
@@ -497,18 +587,62 @@ contactForm.addEventListener('submit', (e) => {
         try {
           const items = JSON.parse(c.dataset.grid);
           if (items && items.length > 0) {
-            grid.innerHTML = items.map(item => `
-              <div class="gallery-item">
-                <div class="gallery-img-placeholder" style="background: ${item.bg || 'var(--gradient-2)'}">
-                  ${item.icon || ''}
+            grid.innerHTML = items.map((item, idx) => {
+              const hasImg = item.bg && item.bg.includes('url(');
+              const imgSrc = hasImg ? item.bg.replace(/url\(['\"]?|['\"]?\)/g, '') : '';
+              return `
+                <div class="gallery-item" ${hasImg ? `data-certificate-src="${imgSrc}" style="cursor: pointer;"` : ''}>
+                  <div class="gallery-img-placeholder">
+                    ${hasImg ? `<img id="gallery-img-${idx}" src="" alt="${item.title}" class="gallery-img" />` : (item.icon || '📜')}
+                  </div>
+                  <div class="gallery-info">
+                    <h5>${item.title}</h5>
+                    <p>${item.desc}</p>
+                  </div>
                 </div>
-                <div class="gallery-info">
-                  <h5>${item.title}</h5>
-                  <p>${item.desc}</p>
-                </div>
-              </div>
-            `).join('');
+              `;
+            }).join('');
             gallery.style.display = 'block';
+
+            // Decode and fade in images asynchronously to prevent layout/scroll jank
+            items.forEach((item, idx) => {
+              const imgEl = document.getElementById(`gallery-img-${idx}`);
+              if (!imgEl) return;
+
+              const hasImg = item.bg && item.bg.includes('url(');
+              if (hasImg) {
+                const imgSrc = item.bg.replace(/url\(['\"]?|['\"]?\)/g, '');
+                const img = new Image();
+                img.src = imgSrc;
+                if (img.decode) {
+                  img.decode().then(() => {
+                    imgEl.src = imgSrc;
+                    imgEl.classList.add('loaded');
+                  }).catch(err => {
+                    console.warn("Failed to decode image asynchronously:", err);
+                    imgEl.src = imgSrc;
+                    imgEl.classList.add('loaded');
+                  });
+                } else {
+                  // Fallback for browsers that do not support Image.decode()
+                  img.onload = () => {
+                    imgEl.src = imgSrc;
+                    imgEl.classList.add('loaded');
+                  };
+                  img.onerror = () => {
+                    imgEl.classList.add('loaded');
+                  };
+                }
+              }
+            });
+
+            // Add click event to each item that has a certificate source
+            grid.querySelectorAll('.gallery-item[data-certificate-src]').forEach(item => {
+              item.addEventListener('click', (e) => {
+                e.stopPropagation(); // Avoid triggering parent clicks
+                openLightbox(item.dataset.certificateSrc);
+              });
+            });
           } else {
             gallery.style.display = 'none';
           }
@@ -520,21 +654,81 @@ contactForm.addEventListener('submit', (e) => {
         gallery.style.display = 'none';
       }
     }
-    
+
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
-  function close() { 
-    modal.classList.remove('active'); 
-    document.body.style.overflow = ''; 
+  function close() {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
     const gallery = $('modal-gallery');
     if (gallery) gallery.style.display = 'none';
+  }
+
+  // Lightbox Modal logic
+  const lightbox = document.getElementById('lightbox-modal');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxClose = document.getElementById('lightbox-close');
+
+  function openLightbox(src) {
+    if (lightbox && lightboxImg) {
+      lightboxImg.src = src;
+      lightbox.classList.add('active');
+    }
+  }
+
+  function closeLightbox() {
+    if (lightbox) {
+      lightbox.classList.remove('active');
+      if (lightboxImg) lightboxImg.src = ''; // Clear image src
+    }
+  }
+
+  if (lightboxClose) {
+    lightboxClose.addEventListener('click', closeLightbox);
+  }
+  if (lightbox) {
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
   }
 
   document.querySelectorAll('.achievement-card').forEach(c => c.addEventListener('click', () => open(c)));
   closeBtn.addEventListener('click', close);
   modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('active')) close(); });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (lightbox && lightbox.classList.contains('active')) {
+        closeLightbox();
+      } else if (modal.classList.contains('active')) {
+        close();
+      }
+    }
+  });
+
+  // Pre-decode all achievements certificates in background after page load
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.querySelectorAll('.achievement-card').forEach(card => {
+        if (card.dataset.grid) {
+          try {
+            const items = JSON.parse(card.dataset.grid);
+            items.forEach(item => {
+              if (item.bg && item.bg.includes('url(')) {
+                const imgSrc = item.bg.replace(/url\(['\"]?|['\"]?\)/g, '');
+                const img = new Image();
+                img.src = imgSrc;
+                if (img.decode) {
+                  img.decode().catch(() => { });
+                }
+              }
+            });
+          } catch (e) { }
+        }
+      });
+    }, 1500);
+  });
 })();
 
 /* Back-to-Top Button logic removed */
@@ -561,6 +755,220 @@ contactForm.addEventListener('submit', (e) => {
         }
       });
       tick = false;
+    });
+  }, { passive: true });
+})();
+
+/* ═══════════════════════════════════
+   17. SECTION SCROLL PARALLAX
+   ═══════════════════════════════════ */
+(function () {
+  if (window.innerWidth <= 768) return;
+
+  const sections = document.querySelectorAll('section[id]');
+  if (!sections.length) return;
+
+  const speedMap = {
+    'hero': 0.22,
+    'about': 0.15,
+    'skills': 0.12,
+    'projects': 0.16,
+    'internships': 0.12,
+    'education': 0.15,
+    'achievements': 0.14,
+    'contact': 0.18
+  };
+
+  const items = Array.from(sections).map(sec => {
+    const container = sec.querySelector('.container');
+    const speed = speedMap[sec.id] || 0.15;
+    return {
+      sec,
+      container,
+      speed,
+      targetY: 0,
+      currentY: 0,
+      targetScale: 1,
+      currentScale: 1
+    };
+  });
+
+  let isRunning = false;
+
+  function updateParallax() {
+    const viewportHeight = window.innerHeight;
+    let needsMoreFrames = false;
+
+    items.forEach(item => {
+      if (!item.container) return;
+
+      const rect = item.sec.getBoundingClientRect();
+      if (rect.top < viewportHeight && rect.bottom > 0) {
+        item.targetY = rect.top * item.speed;
+        const progress = Math.min(Math.abs(rect.top) / viewportHeight, 1);
+        item.targetScale = 1 - progress * 0.05;
+      }
+    });
+
+    items.forEach(item => {
+      if (!item.container) return;
+
+      const diffY = item.targetY - item.currentY;
+      const diffScale = item.targetScale - item.currentScale;
+
+      if (Math.abs(diffY) > 0.05 || Math.abs(diffScale) > 0.001) {
+        item.currentY += diffY * 0.12;
+        item.currentScale += diffScale * 0.12;
+        item.container.style.transform = `translate3d(0, ${item.currentY}px, 0) scale(${item.currentScale})`;
+        needsMoreFrames = true;
+      } else {
+        item.currentY = item.targetY;
+        item.currentScale = item.targetScale;
+        item.container.style.transform = `translate3d(0, ${item.targetY}px, 0) scale(${item.targetScale})`;
+      }
+    });
+
+    if (needsMoreFrames) {
+      requestAnimationFrame(updateParallax);
+    } else {
+      isRunning = false;
+    }
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!isRunning) {
+      isRunning = true;
+      requestAnimationFrame(updateParallax);
+    }
+  }, { passive: true });
+
+  isRunning = true;
+  requestAnimationFrame(updateParallax);
+})();
+
+/* ═══════════════════════════════════
+   18. PROJECTS CAROUSEL
+   ═══════════════════════════════════ */
+(function () {
+  const grid = document.getElementById('projects-grid');
+  const dotsContainer = document.getElementById('carousel-dots');
+  if (!grid || !dotsContainer) return;
+
+  const prevBtn = document.getElementById('proj-prev');
+  const nextBtn = document.getElementById('proj-next');
+
+  const cards = grid.querySelectorAll('.project-card');
+  if (!cards.length) return;
+
+  // Dynamically generate pagination dots
+  cards.forEach((_, idx) => {
+    const dot = document.createElement('button');
+    dot.className = `carousel-dot${idx === 0 ? ' active' : ''}`;
+    dot.setAttribute('aria-label', `Go to project ${idx + 1}`);
+    dot.addEventListener('click', () => {
+      scrollToCard(idx);
+      resetAutoplay();
+    });
+    dotsContainer.appendChild(dot);
+  });
+
+  function getActiveCardIndex() {
+    const scrollLeft = grid.scrollLeft;
+    const containerWidth = grid.clientWidth;
+    
+    let closestIdx = 0;
+    let minDistance = Infinity;
+
+    cards.forEach((card, idx) => {
+      const cardCenter = card.offsetLeft + card.clientWidth / 2;
+      const viewportCenter = scrollLeft + containerWidth / 2;
+      const distance = Math.abs(cardCenter - viewportCenter);
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestIdx = idx;
+      }
+    });
+
+    return closestIdx;
+  }
+
+  function scrollToCard(idx) {
+    if (!cards[idx]) return;
+    const card = cards[idx];
+    const containerWidth = grid.clientWidth;
+    const cardWidth = card.clientWidth;
+    const cardLeft = card.offsetLeft;
+    const targetLeft = cardLeft - (containerWidth - cardWidth) / 2;
+    
+    grid.scrollTo({
+      left: targetLeft,
+      behavior: 'smooth'
+    });
+  }
+
+  // Autoplay functionality
+  let autoplayInterval = null;
+  const AUTOPLAY_DELAY = 5000; // Auto scroll every 5 seconds
+
+  function startAutoplay() {
+    if (autoplayInterval) return;
+    autoplayInterval = setInterval(() => {
+      const activeIdx = getActiveCardIndex();
+      const nextIdx = (activeIdx + 1) % cards.length;
+      scrollToCard(nextIdx);
+    }, AUTOPLAY_DELAY);
+  }
+
+  function stopAutoplay() {
+    if (autoplayInterval) {
+      clearInterval(autoplayInterval);
+      autoplayInterval = null;
+    }
+  }
+
+  function resetAutoplay() {
+    stopAutoplay();
+    startAutoplay();
+  }
+
+  // Start autoplay initially
+  startAutoplay();
+
+  // Pause on hover or touch interactions
+  const carouselContainer = document.querySelector('.projects-carousel-container');
+  if (carouselContainer) {
+    carouselContainer.addEventListener('mouseenter', stopAutoplay);
+    carouselContainer.addEventListener('mouseleave', startAutoplay);
+    carouselContainer.addEventListener('touchstart', stopAutoplay, { passive: true });
+    carouselContainer.addEventListener('touchend', startAutoplay, { passive: true });
+  }
+
+  // Previous button click
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      const activeIdx = getActiveCardIndex();
+      let targetIdx = activeIdx - 1;
+      if (targetIdx < 0) targetIdx = cards.length - 1;
+      scrollToCard(targetIdx);
+      resetAutoplay();
+    });
+  }
+
+  // Next button click
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      const activeIdx = getActiveCardIndex();
+      const targetIdx = (activeIdx + 1) % cards.length;
+      scrollToCard(targetIdx);
+      resetAutoplay();
+    });
+  }
+
+  // Update dots active status on scroll
+  grid.addEventListener('scroll', () => {
+    const activeIdx = getActiveCardIndex();
+    dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, idx) => {
+      dot.classList.toggle('active', idx === activeIdx);
     });
   }, { passive: true });
 })();

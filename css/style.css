@@ -227,6 +227,7 @@ img {
   user-select: none;
   z-index: 2;
 }
+
 .loader-brand-img {
   width: 120px;
   height: 120px;
@@ -237,10 +238,13 @@ img {
 }
 
 @keyframes logo-pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(1);
     filter: drop-shadow(0 0 8px rgba(var(--accent-rgb), 0.15));
   }
+
   50% {
     transform: scale(1.05);
     filter: drop-shadow(0 0 18px rgba(var(--accent-rgb), 0.35));
@@ -303,10 +307,20 @@ img {
   top: 0;
   left: 0;
   pointer-events: none;
-  z-index: 10001;
+  z-index: 200000; /* Extremely high z-index to overlay everything including lightboxes */
   border-radius: 50%;
   will-change: transform;
   opacity: 0;
+}
+
+.cursor-canvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10000;
+  /* Behind dot and ring */
+  width: 100vw;
+  height: 100vh;
 }
 
 body.loaded .cursor-dot,
@@ -319,34 +333,70 @@ body.loaded .cursor-ring {
   height: 8px;
   background: var(--accent);
   box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.8), 0 0 24px rgba(var(--accent-rgb), 0.4);
-  transition: width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
+  transition: width 0.3s ease, height 0.3s ease, opacity 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .cursor-ring {
   width: 48px;
   height: 48px;
-  border: 1.5px solid rgba(var(--accent-rgb), 0.4);
-  transition: width 0.45s var(--ease-out-expo), height 0.45s var(--ease-out-expo), border-color 0.3s ease, opacity 0.3s ease;
+  transition: width 0.45s var(--ease-out-expo), height 0.45s var(--ease-out-expo), opacity 0.3s ease;
+}
+
+.cursor-ring-inner {
+  width: 100%;
+  height: 100%;
+  border: 1.5px dashed rgba(var(--accent-rgb), 0.55);
+  border-radius: 50%;
+  animation: cursor-spin 12s linear infinite;
+  box-shadow: 0 0 8px rgba(var(--accent-rgb), 0.2);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .cursor-glow {
   width: 300px;
   height: 300px;
-  background: radial-gradient(circle, rgba(var(--accent-rgb), 0.07), transparent 70%);
+  background: radial-gradient(circle, rgba(var(--accent-rgb), 0.1), transparent 70%);
   z-index: 1;
   transition: opacity 0.5s ease;
+  animation: cursor-hue-shift 8s linear infinite;
 }
 
 .cursor-ring.active {
   width: 80px;
   height: 80px;
-  border-color: rgba(var(--accent-rgb), 0.15);
+}
+
+.cursor-ring.active .cursor-ring-inner {
+  border: 1.5px dashed rgba(var(--accent2-rgb), 0.75);
+  animation: cursor-spin 3s linear infinite;
+  box-shadow: 0 0 12px rgba(var(--accent2-rgb), 0.4);
 }
 
 .cursor-dot.active {
-  width: 0;
-  height: 0;
-  opacity: 0;
+  width: 12px;
+  height: 12px;
+  background: var(--accent-2);
+  box-shadow: 0 0 15px rgba(var(--accent2-rgb), 0.9);
+}
+
+@keyframes cursor-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes cursor-hue-shift {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+
+  100% {
+    filter: hue-rotate(360deg);
+  }
 }
 
 @media (hover: none),
@@ -354,7 +404,8 @@ body.loaded .cursor-ring {
 
   .cursor-dot,
   .cursor-ring,
-  .cursor-glow {
+  .cursor-glow,
+  .cursor-canvas {
     display: none !important;
   }
 }
@@ -397,22 +448,17 @@ body.loaded .cursor-ring {
 }
 
 .nav-logo {
-  font-family: var(--mono);
-  font-size: 1.4rem;
-  font-weight: 800;
+  font-family: var(--font);
+  font-size: 1.45rem;
+  font-weight: 700;
   color: var(--accent);
   letter-spacing: 0.05em;
   transition: text-shadow var(--transition);
+  text-decoration: none;
 }
 
 .nav-logo:hover {
-  text-shadow: 0 0 24px rgba(var(--accent-rgb), 0.6);
-}
-
-.nav-logo-dot {
-  color: var(--accent-2);
-  font-size: 1.8rem;
-  line-height: 0;
+  text-shadow: 0 0 24px rgba(var(--accent-rgb), 0.4);
 }
 
 .nav-links {
@@ -1361,14 +1407,101 @@ body.loaded .hero-right.reveal-item {
 }
 
 /* ═══════════ PROJECTS ═══════════ */
+.projects-carousel-container {
+  position: relative;
+  width: 100%;
+  max-width: 880px; /* Reduced width to make the card rectangle less wide */
+  margin: 0 auto; /* Centered layout */
+}
+
+.carousel-control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%) translateZ(50px);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid var(--border-2);
+  background: var(--bg-card);
+  color: var(--text);
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: none; /* custom cursor */
+  z-index: 15;
+  transition: all 0.4s var(--ease-out-expo);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.carousel-control:hover {
+  border-color: var(--accent);
+  background: var(--gradient-2);
+  color: #fff;
+  box-shadow: 0 8px 30px rgba(var(--accent-rgb), 0.45);
+}
+
+.carousel-control.prev {
+  left: -24px;
+}
+
+.carousel-control.next {
+  right: -24px;
+}
+
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.carousel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--border-2);
+  border: none;
+  cursor: none; /* custom cursor */
+  transition: all 0.3s ease;
+}
+
+.carousel-dot.active {
+  width: 28px;
+  border-radius: 6px;
+  background: var(--accent);
+  box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.6);
+}
+
+/* Hide control buttons on small screens */
+@media (max-width: 768px) {
+  .carousel-control {
+    display: none !important;
+  }
+}
+
 .projects-grid {
-  display: grid;
-  gap: 36px;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 28px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 20px 4px 40px; /* space for card shadows and scrollbar spacing */
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.projects-grid::-webkit-scrollbar {
+  display: none;
 }
 
 .project-card {
-  display: grid;
-  grid-template-columns: 1fr 1.2fr;
+  display: flex;
+  flex-direction: row; /* Horizontal layout on desktop */
+  flex: 0 0 100%; /* Show one card at a time */
+  height: 380px; /* Fixed height reduced for a more compact size */
+  scroll-snap-align: center;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 26px;
@@ -1387,7 +1520,7 @@ body.loaded .hero-right.reveal-item {
 }
 
 .project-card:nth-child(even) {
-  direction: rtl;
+  direction: ltr;
 }
 
 .project-card:nth-child(even)>* {
@@ -1395,8 +1528,10 @@ body.loaded .hero-right.reveal-item {
 }
 
 .project-image {
+  width: 45%; /* 45% width on desktop */
+  height: 100%;
+  min-height: 100%;
   position: relative;
-  min-height: 270px;
   overflow: hidden;
   transform-style: preserve-3d;
   transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
@@ -1465,10 +1600,12 @@ body.loaded .hero-right.reveal-item {
 }
 
 .project-info {
-  padding: 38px;
+  width: 55%; /* 55% width on desktop */
+  padding: 40px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: center; /* Vertically center content */
+  flex-grow: 1;
   transform-style: preserve-3d;
   transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -1740,8 +1877,8 @@ body.loaded .hero-right.reveal-item {
   position: fixed;
   inset: 0;
   z-index: 2000;
-  background: rgba(0, 0, 0, 0.65);
-  backdrop-filter: blur(16px);
+  background: rgba(4, 4, 12, 0.94);
+  /* Solid dark, cyberpunk styled overlay instead of dynamic blur filter */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1784,7 +1921,7 @@ body.loaded .hero-right.reveal-item {
   background: rgba(0, 0, 0, 0.4);
   color: #fff;
   font-size: 1.4rem;
-  cursor: pointer;
+  cursor: none; /* Hide default cursor to let custom cursor shine */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1827,8 +1964,13 @@ body.loaded .hero-right.reveal-item {
 
 .achievement-modal-body {
   padding: 34px;
+  max-height: 80vh;
+  overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
 }
 
 .achievement-modal-body::-webkit-scrollbar {
@@ -1906,19 +2048,20 @@ body.loaded .hero-right.reveal-item {
   display: flex;
   flex-direction: column;
   transition: transform var(--transition), border-color var(--transition);
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
 }
 
 .gallery-item:hover {
-  transform: translateY(-4px);
+  transform: translateY(-4px) translate3d(0, 0, 0);
   border-color: rgba(var(--accent-rgb), 0.3);
 }
 
 .gallery-img-placeholder {
-  height: 120px;
-  background: var(--gradient-2);
-  background-size: cover;           /* ADD THIS */
-  background-position: center;      /* ADD THIS */
-  background-repeat: no-repeat; 
+  height: 135px;
+  background-color: #080815;
+  /* Dark solid backdrop to frame documents nicely */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1926,6 +2069,23 @@ body.loaded .hero-right.reveal-item {
   color: rgba(255, 255, 255, 0.85);
   position: relative;
   overflow: hidden;
+  width: 100%;
+}
+
+.gallery-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  will-change: opacity;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+}
+
+.gallery-img.loaded {
+  opacity: 1;
 }
 
 .gallery-img-placeholder::after {
@@ -2354,7 +2514,9 @@ body.loaded .hero-right.reveal-item {
   .skill-card,
   .achievement-card,
   .form-group input,
-  .form-group textarea {
+  .form-group textarea,
+  .achievement-modal-close,
+  .lightbox-close {
     cursor: auto;
   }
 
@@ -2435,7 +2597,20 @@ body.loaded .hero-right.reveal-item {
   }
 
   .project-card {
-    grid-template-columns: 1fr;
+    flex: 0 0 100%; /* Show one card at a time */
+    flex-direction: column; /* Stack vertically on mobile */
+    height: auto; /* Reset fixed height */
+  }
+
+  .project-image {
+    width: 100%; /* Full width */
+    height: 220px; /* Standard vertical height */
+    min-height: 220px;
+  }
+
+  .project-info {
+    width: 100%; /* Full width */
+    padding: 28px;
   }
 
   .project-card:nth-child(even) {
@@ -2520,12 +2695,10 @@ body.loaded .hero-right.reveal-item {
   left: -150%;
   width: 50%;
   height: 100%;
-  background: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.15) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
+  background: linear-gradient(to right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.15) 50%,
+      rgba(255, 255, 255, 0) 100%);
   transform: skewX(-25deg);
   transition: 0.75s;
   pointer-events: none;
@@ -2548,6 +2721,7 @@ body.loaded .hero-right.reveal-item {
     filter: brightness(1);
     box-shadow: 0 0 16px rgba(var(--accent-rgb), 0.3);
   }
+
   100% {
     filter: brightness(1.4);
     box-shadow: 0 0 28px rgba(var(--accent-rgb), 0.7), 0 0 10px rgba(var(--accent-rgb), 0.4);
@@ -2555,3 +2729,84 @@ body.loaded .hero-right.reveal-item {
 }
 
 /* Back-to-Top Button styling removed */
+
+/* LIGHTBOX MODAL FOR CERTIFICATES */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 3, 10, 0.95);
+  z-index: 10010;
+  /* Higher than the achievement modal (2000) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.35s var(--ease-out-expo), visibility 0.35s var(--ease-out-expo);
+  backdrop-filter: blur(16px);
+  padding: 24px;
+}
+
+.lightbox-overlay.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+}
+
+.lightbox-content {
+  position: relative;
+  transform: scale(0.95);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
+  border: 1px solid var(--border-2);
+  background: rgba(10, 10, 28, 0.6);
+}
+
+.lightbox-overlay.active .lightbox-content {
+  transform: scale(1);
+}
+
+.lightbox-img {
+  max-width: 85vw;
+  max-height: 85vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  border-radius: 12px;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 2.2rem;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: none; /* Hide default cursor to let custom cursor shine */
+  transition: var(--transition);
+  z-index: 10020;
+  line-height: 0;
+  padding-bottom: 4px;
+}
+
+.lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: scale(1.1) rotate(90deg);
+  color: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 15px rgba(var(--accent-rgb), 0.3);
+}

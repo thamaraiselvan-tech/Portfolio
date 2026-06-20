@@ -13,7 +13,7 @@
     rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script>(function () { emailjs.init('tEMj75LhaUCDRm58J'); })();</script>
-  <link rel="stylesheet" href="css/style.css?v=3.5" />
+  <link rel="stylesheet" href="css/style.css?v=3.9" />
 </head>
 
 <body>
@@ -33,7 +33,7 @@
             style="stroke-dasharray:565.48;stroke-dashoffset:565.48" />
         </svg>
         <div class="loader-brand">
-          <img src="assets/loader-logo.png" alt="TS Logo" class="loader-brand-img" />
+          <img src="assets/loader-logo.png" alt="Logo" class="loader-brand-img" />
         </div>
       </div>
       <div class="loader-meta">
@@ -45,13 +45,16 @@
 
   <!-- CUSTOM CURSOR -->
   <div class="cursor-dot" id="cursor-dot"></div>
-  <div class="cursor-ring" id="cursor-ring"></div>
+  <div class="cursor-ring" id="cursor-ring">
+    <div class="cursor-ring-inner"></div>
+  </div>
   <div class="cursor-glow" id="cursor-glow"></div>
+  <canvas class="cursor-canvas" id="cursor-canvas"></canvas>
 
   <!-- NAVBAR -->
   <nav class="navbar" id="navbar">
     <div class="nav-container">
-      <a href="#hero" class="nav-logo" style="font-weight: 600;font-family: 'Inter', sans-serif;">Welcome</a>
+      <a href="#hero" class="nav-logo">TS</a>
       <ul class="nav-links" id="nav-links">
         <li><a href="#hero" class="nav-link active">Home</a></li>
         <li><a href="#about" class="nav-link">About</a></li>
@@ -123,7 +126,6 @@
       </div>
       <div class="hero-right reveal-item">
         <div class="hero-portrait">
-          <!-- 📸 Replace with: <img src="assets/your-photo.png" alt="Thamarai Selvan" class="portrait-img"/> -->
           <img src="assets/hero-portrait.png" alt="Thamarai Selvan" class="portrait-img" />
           <div class="portrait-border"></div>
           <div class="portrait-glow"></div>
@@ -247,56 +249,60 @@
         <h2 class="section-title">Things I've built so far</h2>
         <div class="section-line"></div>
       </div>
-      <div class="projects-grid">
-        <div class="project-card glow-card shine-card animate-on-scroll" data-tilt>
-          <div class="project-image">
-            <div class="project-image-placeholder" style="background:linear-gradient(135deg,#6366f1,#e040fb)">🛡️</div>
-            <div class="project-overlay"><a href="https://github.com/thamaraiselvan-tech/MindShield-AI.git"
-                target="_blank" class="project-link">🔗</a></div>
-          </div>
-          <div class="project-info">
-            <span class="project-number">01</span>
-            <h3>MindShield AI</h3>
-            <p>AI system for detecting psychological manipulation in digital media using advanced LLM models like Gemini
-              and LLaMA 3.</p>
-            <div class="project-tech"><span>Python</span><span>Django</span><span>Gemini</span><span>LLaMA 3</span>
+      <div class="projects-carousel-container">
+        <div class="projects-grid" id="projects-grid">
+          <div class="project-card glow-card shine-card animate-on-scroll" data-tilt>
+            <div class="project-image">
+              <div class="project-image-placeholder" style="background:linear-gradient(135deg,#6366f1,#e040fb)">🛡️</div>
+              <div class="project-overlay"><a href="https://github.com/thamaraiselvan-tech/MindShield-AI.git"
+                  target="_blank" class="project-link">🔗</a></div>
             </div>
-            <a href="https://github.com/thamaraiselvan-tech/MindShield-AI.git" target="_blank" class="project-btn">View
-              Code →</a>
+            <div class="project-info">
+              <span class="project-number">01</span>
+              <h3>MindShield AI</h3>
+              <p>AI system for detecting psychological manipulation in digital media using advanced LLM models like Gemini
+                and LLaMA 3.</p>
+              <div class="project-tech"><span>Python</span><span>Django</span><span>Gemini</span><span>LLaMA 3</span>
+              </div>
+              <a href="https://github.com/thamaraiselvan-tech/MindShield-AI.git" target="_blank" class="project-btn">View
+                Code →</a>
+            </div>
+          </div>
+          <div class="project-card glow-card shine-card animate-on-scroll" data-tilt>
+            <div class="project-image">
+              <div class="project-image-placeholder" style="background:linear-gradient(135deg,#00d4ff,#6366f1)">📄</div>
+              <div class="project-overlay"><a href="https://github.com/thamaraiselvan-tech/DocFy.git" target="_blank"
+                  class="project-link">🔗</a></div>
+            </div>
+            <div class="project-info">
+              <span class="project-number">02</span>
+              <h3>DocFy</h3>
+              <p>AI-powered system for detecting document forgery using Gemini LLM for intelligent analysis and
+                verification.</p>
+              <div class="project-tech"><span>Python</span><span>FastAPI</span><span>Gemini</span></div>
+              <a href="https://github.com/thamaraiselvan-tech/DocFy.git" target="_blank" class="project-btn">View Code
+                →</a>
+            </div>
+          </div>
+          <div class="project-card glow-card shine-card animate-on-scroll" data-tilt>
+            <div class="project-image">
+              <div class="project-image-placeholder" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">🔍</div>
+              <div class="project-overlay"><a href="https://github.com/thamaraiselvan-tech/BIS-Standards-Engine.git"
+                  target="_blank" class="project-link">🔗</a></div>
+            </div>
+            <div class="project-info">
+              <span class="project-number">03</span>
+              <h3>BIS Standards Recommendation Engine</h3>
+              <p>Smart recommendation engine for Bureau of Indian Standards, helping users discover relevant standards
+                effortlessly.</p>
+              <div class="project-tech"><span>Python</span><span>Flask</span></div>
+              <a href="https://github.com/thamaraiselvan-tech/BIS-Standards-Engine.git" target="_blank"
+                class="project-btn">View Code →</a>
+            </div>
           </div>
         </div>
-        <div class="project-card glow-card shine-card animate-on-scroll" data-tilt>
-          <div class="project-image">
-            <div class="project-image-placeholder" style="background:linear-gradient(135deg,#00d4ff,#6366f1)">📄</div>
-            <div class="project-overlay"><a href="https://github.com/thamaraiselvan-tech/DocFy.git" target="_blank"
-                class="project-link">🔗</a></div>
-          </div>
-          <div class="project-info">
-            <span class="project-number">02</span>
-            <h3>DocFy</h3>
-            <p>AI-powered system for detecting document forgery using Gemini LLM for intelligent analysis and
-              verification.</p>
-            <div class="project-tech"><span>Python</span><span>FastAPI</span><span>Gemini</span></div>
-            <a href="https://github.com/thamaraiselvan-tech/DocFy.git" target="_blank" class="project-btn">View Code
-              →</a>
-          </div>
-        </div>
-        <div class="project-card glow-card shine-card animate-on-scroll" data-tilt>
-          <div class="project-image">
-            <div class="project-image-placeholder" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">🔍</div>
-            <div class="project-overlay"><a href="https://github.com/thamaraiselvan-tech/BIS-Standards-Engine.git"
-                target="_blank" class="project-link">🔗</a></div>
-          </div>
-          <div class="project-info">
-            <span class="project-number">03</span>
-            <h3>BIS Standards Recommendation Engine</h3>
-            <p>Smart recommendation engine for Bureau of Indian Standards, helping users discover relevant standards
-              effortlessly.</p>
-            <div class="project-tech"><span>Python</span><span>Flask</span></div>
-            <a href="https://github.com/thamaraiselvan-tech/BIS-Standards-Engine.git" target="_blank"
-              class="project-btn">View Code →</a>
-          </div>
-        </div>
+
+        <div class="carousel-dots" id="carousel-dots"></div>
       </div>
     </div>
   </section>
@@ -358,12 +364,12 @@
       </div>
       <div class="achievements-grid">
         <div class="achievement-card shine-card animate-on-scroll" style="transition-delay:0s" data-icon="🏆"
-          data-title="Hackathon Participation" data-date="2024 – Present"
+          data-title="Hackathon Participation" data-date="2025 – Present"
           data-description="Actively participating in national and college-level hackathons to sharpen rapid prototyping, team collaboration, and creative problem-solving skills under tight deadlines."
           data-image="linear-gradient(135deg,#6366f1,#e040fb)"
           data-grid='[
-          {"title":"HackWell 2026","desc":"Finalist certificate for MindShield AI - Psychological Manipulation detector.","bg":"url(assets/Hackwell.jpeg)"},
-          {"title":"Thinkroot x Vortex Hackathon 2026, NIT","desc":"Participation certificate for DocFy - AI System for document forgery detection.","bg":"url(assets/nitt.jpg)"},
+          {"title":"HackWell 2026, 12hrs Hackathon","desc":"Finalist certificate for MindShield AI - Psychological Manipulation detector at sarathan college of engineering.","bg":"url(assets/Hackwell.jpeg)"},
+          {"title":"Thinkroot x Vortex Hackathon 2026 (36hrs)","desc":"Participation certificate for DocFy - AI System for document forgery detection at National Institute of Technology, Trichy.","bg":"url(assets/nitt.jpg)"},
           {"title":"TechSpark - 2026, A National level Technical Symposium","desc":"Won 2nd prize in Ideathon at J.J. College of Engineering and Technology.","bg":"url(assets/Ideathon.jpeg)"},
           {"title":"EEENIX 2026, A National level Technical Symposium","desc":"Won 3rd prize in the Projet Expo event held at Govt. College of Engineering, Srirangam.","bg":"url(assets/ProjectExpo.jpeg)"}]'>
           <div class="achievement-icon">🏆</div>
@@ -372,10 +378,9 @@
           <span class="card-hint">Click for details →</span>
         </div>
         <div class="achievement-card shine-card animate-on-scroll" style="transition-delay:0.12s" data-icon="📜"
-          data-title="Certifications" data-date="2025 – Upcoming"
+          data-title="Certifications" data-date="2025 – Present"
           data-description="Pursuing industry-recognized certifications in Artificial Intelligence, Cloud Computing, and Full Stack Web Development to validate skills and stay current with evolving technologies."
-          data-image="linear-gradient(135deg,#00d4ff,#6366f1)"
-          data-grid='[
+          data-image="linear-gradient(135deg,#00d4ff,#6366f1)" data-grid='[
           {"title":"Microsoft Applied Skills","desc":"Completed certification in Microsoft applied skills in Generating reports with AI Agents.","bg":"url(assets/Microsoft.png)"},
           {"title":"Diploma in Advanced Computer Programming","desc":"Pursued a six month course in advanced computer programming at a certified institution.","bg":"url(assets/DACP.jpeg)"},
           {"title":"Front-End Developer","desc":"Pursued a certification in front-end web development.","bg":"url(assets/FD.jpeg)"}
@@ -386,7 +391,7 @@
           <span class="card-hint">Click for details →</span>
         </div>
         <div class="achievement-card shine-card animate-on-scroll" style="transition-delay:0.24s" data-icon="🚀"
-          data-title="Open Source Contributions" data-date="2024 – Present"
+          data-title="Open Source Contributions" data-date="2025 – Present"
           data-description="Contributing to the open source ecosystem by building and maintaining public repositories on GitHub, sharing reusable tools, and collaborating with developers worldwide."
           data-highlights="Maintaining 3+ public repositories on GitHub|Built MindShield AI — an open-source manipulation detection tool|Created DocFy — AI document forgery detection system|Actively learning best practices for OSS contribution workflows"
           data-image="linear-gradient(135deg,#f59e0b,#ef4444)">
@@ -489,7 +494,7 @@
       <div class="achievement-modal-image" id="modal-image">
         <span class="achievement-modal-image-icon" id="modal-image-icon">🏆</span>
       </div>
-      <div class="achievement-modal-body" style="max-height: 80vh; overflow-y: auto;">
+      <div class="achievement-modal-body">
         <div class="achievement-modal-meta">
           <div class="achievement-modal-icon" id="modal-icon">🏆</div>
           <div>
@@ -502,6 +507,14 @@
           <div class="achievement-gallery-grid" id="modal-gallery-grid"></div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- LIGHTBOX MODAL FOR CERTIFICATES -->
+  <div class="lightbox-overlay" id="lightbox-modal">
+    <button class="lightbox-close" id="lightbox-close" aria-label="Close">&times;</button>
+    <div class="lightbox-content">
+      <img src="" id="lightbox-img" class="lightbox-img" alt="Certificate Preview" />
     </div>
   </div>
 
@@ -537,7 +550,7 @@
   </footer>
 
   <!-- BACK TO TOP BUTTON REMOVED -->
-  <script src="js/main.js?v=3.5"></script>
+  <script src="js/main.js?v=3.9"></script>
 </body>
 
 </html>
