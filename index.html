@@ -463,26 +463,37 @@
               </svg></a>
           </div>
         </div>
-        <form class="contact-form animate-on-scroll anim-right" id="contact-form">
-          <div class="form-group">
-            <input type="text" id="name" name="from_name" placeholder=" " required />
-            <label for="name">Your Name</label>
-            <span class="error-msg">Please enter your name</span>
+        <div class="contact-form-panel animate-on-scroll anim-right">
+          <div class="terminal-header">
+            <div class="terminal-status">
+              <span class="status-dot blinking"></span>
+              <span class="status-text">SECURE TRANSMISSION // ACTIVE</span>
+            </div>
+            <div class="terminal-decor">
+              <span>[HUD_v3.9]</span>
+            </div>
           </div>
-          <div class="form-group">
-            <input type="email" id="email" name="from_email" placeholder=" " required />
-            <label for="email">Your Email</label>
-            <span class="error-msg">Please enter a valid email</span>
-          </div>
-          <div class="form-group">
-            <textarea id="message" name="message" rows="5" placeholder=" " required></textarea>
-            <label for="message">Your Message</label>
-            <span class="error-msg">Please enter a message</span>
-          </div>
-          <div class="form-status" id="form-status"></div>
-          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center"><span>Send
-              Message</span><span class="btn-shimmer"></span></button>
-        </form>
+          <form class="contact-form" id="contact-form">
+            <div class="form-group">
+              <input type="text" id="name" name="from_name" placeholder=" " required />
+              <label for="name">Your Name</label>
+              <span class="error-msg">Please enter your name</span>
+            </div>
+            <div class="form-group">
+              <input type="email" id="email" name="from_email" placeholder=" " required />
+              <label for="email">Your Email</label>
+              <span class="error-msg">Please enter a valid email</span>
+            </div>
+            <div class="form-group">
+              <textarea id="message" name="message" rows="5" placeholder=" " required></textarea>
+              <label for="message">Your Message</label>
+              <span class="error-msg">Please enter a message</span>
+            </div>
+            <div class="form-status" id="form-status"></div>
+            <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center"><span>Send
+                Message</span><span class="btn-shimmer"></span></button>
+          </form>
+        </div>
       </div>
     </div>
   </section>

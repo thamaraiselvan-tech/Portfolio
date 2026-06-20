@@ -417,17 +417,33 @@ typeLoop();
    ═══════════════════════════════════ */
 (function () {
   if (window.matchMedia('(hover: none)').matches) return;
-  document.querySelectorAll('[data-tilt]').forEach(card => {
+
+  // Dynamically wrap project card children in a .project-card-inner div
+  // so we can apply 3D tilt to the inner wrapper and spherical scrolling to the outer card.
+  document.querySelectorAll('.project-card').forEach(card => {
+    if (card.querySelector('.project-card-inner')) return; // Avoid double wrapping
+    const inner = document.createElement('div');
+    inner.className = 'project-card-inner';
+    while (card.firstChild) {
+      inner.appendChild(card.firstChild);
+    }
+    card.appendChild(inner);
+  });
+
+  document.querySelectorAll('.project-card').forEach(card => {
+    const inner = card.querySelector('.project-card-inner');
+    if (!inner) return;
+
     card.addEventListener('mousemove', (e) => {
       const r = card.getBoundingClientRect();
       const x = (e.clientX - r.left) / r.width - 0.5;
       const y = (e.clientY - r.top) / r.height - 0.5;
-      card.style.transform = `perspective(700px) rotateX(${y * -14}deg) rotateY(${x * 14}deg) scale(1.03)`;
+      inner.style.transform = `perspective(700px) rotateX(${y * -14}deg) rotateY(${x * 14}deg) scale(1.03)`;
     });
-    card.addEventListener('mouseenter', () => { card.style.transition = 'none'; });
+    card.addEventListener('mouseenter', () => { inner.style.transition = 'none'; });
     card.addEventListener('mouseleave', () => {
-      card.style.transition = 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
-      card.style.transform = 'perspective(700px) rotateX(0) rotateY(0) scale(1)';
+      inner.style.transition = 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
+      inner.style.transform = 'perspective(700px) rotateX(0) rotateY(0) scale(1)';
     });
   });
 })();
@@ -872,16 +888,19 @@ contactForm.addEventListener('submit', (e) => {
 
   function initCloneEffects(card) {
     if (window.matchMedia('(hover: none)').matches) return;
+    const inner = card.querySelector('.project-card-inner');
+    if (!inner) return;
+
     card.addEventListener('mousemove', (e) => {
       const r = card.getBoundingClientRect();
       const x = (e.clientX - r.left) / r.width - 0.5;
       const y = (e.clientY - r.top) / r.height - 0.5;
-      card.style.transform = `perspective(700px) rotateX(${y * -14}deg) rotateY(${x * 14}deg) scale(1.03)`;
+      inner.style.transform = `perspective(700px) rotateX(${y * -14}deg) rotateY(${x * 14}deg) scale(1.03)`;
     });
-    card.addEventListener('mouseenter', () => { card.style.transition = 'none'; });
+    card.addEventListener('mouseenter', () => { inner.style.transition = 'none'; });
     card.addEventListener('mouseleave', () => {
-      card.style.transition = 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
-      card.style.transform = 'perspective(700px) rotateX(0) rotateY(0) scale(1)';
+      inner.style.transition = 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
+      inner.style.transform = 'perspective(700px) rotateX(0) rotateY(0) scale(1)';
     });
     card.addEventListener('mousemove', (e) => {
       const r = card.getBoundingClientRect();
@@ -892,8 +911,10 @@ contactForm.addEventListener('submit', (e) => {
 
   // Set initial scroll to first real card (index 1)
   scrollToCard(1, 'auto');
+  updateSphericalScroll();
   window.addEventListener('load', () => {
     scrollToCard(1, 'auto');
+    updateSphericalScroll();
   });
 
   // Dynamically generate pagination dots
@@ -938,9 +959,49 @@ contactForm.addEventListener('submit', (e) => {
     const cardLeft = card.offsetLeft;
     const targetLeft = cardLeft - (containerWidth - cardWidth) / 2;
     
-    grid.scrollTo({
-      left: targetLeft,
-      behavior: behavior
+    // Temporarily turn off scroll-snap to prevent browser fighting during instant snaps
+    if (behavior === 'auto') {
+      grid.style.scrollSnapType = 'none';
+      grid.scrollTo({
+        left: targetLeft,
+        behavior: 'auto'
+      });
+      // Force a layout reflow to make the scroll position update apply synchronously
+      grid.offsetHeight;
+      grid.style.scrollSnapType = 'x mandatory';
+    } else {
+      grid.scrollTo({
+        left: targetLeft,
+        behavior: behavior
+      });
+    }
+  }
+
+  // Spherical 3D scrolling calculation function
+  function updateSphericalScroll() {
+    const containerCenter = grid.scrollLeft + grid.clientWidth / 2;
+    const allCards = grid.querySelectorAll('.project-card');
+    if (!allCards.length) return;
+
+    allCards.forEach((card) => {
+      const cardCenter = card.offsetLeft + card.clientWidth / 2;
+      const distance = cardCenter - containerCenter;
+      
+      // Normalized distance: -1 is left edge, 0 is center, 1 is right edge of viewport.
+      // Clamp values and fallback divisor to 1 to prevent division by zero or NaN values.
+      const divisor = grid.clientWidth / 2 || 1;
+      const normalizedDistance = Math.max(-2, Math.min(2, distance / divisor));
+
+      // Spherical 3D calculations
+      const rotateY = normalizedDistance * -25; // Rotates Y up to 25deg
+      const translateZ = Math.abs(normalizedDistance) * -120; // Pushed back in 3D space
+      const translateX = normalizedDistance * -35; // Slight pull-in for curve
+      const scale = 1 - Math.min(Math.abs(normalizedDistance) * 0.12, 0.12);
+      const opacity = 1 - Math.min(Math.abs(normalizedDistance) * 0.45, 0.45);
+
+      // Apply the 3D spherical scroll transform
+      card.style.transform = `translate3d(${translateX}px, 0, ${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`;
+      card.style.opacity = opacity;
     });
   }
 
@@ -1001,6 +1062,9 @@ contactForm.addEventListener('submit', (e) => {
   // Update dots active status on scroll, and handle jumps at limits
   let isJumping = false;
   grid.addEventListener('scroll', () => {
+    // Run spherical scroll update on every scroll event
+    updateSphericalScroll();
+
     if (isJumping) return;
 
     const allCards = grid.querySelectorAll('.project-card');
@@ -1019,11 +1083,20 @@ contactForm.addEventListener('submit', (e) => {
     if (activeIdx === 0) {
       isJumping = true;
       scrollToCard(cards.length, 'auto');
-      setTimeout(() => { isJumping = false; }, 50);
+      // Reset isJumping flag after the browser has completed rendering the jump
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          isJumping = false;
+        });
+      });
     } else if (activeIdx === allCards.length - 1) {
       isJumping = true;
       scrollToCard(1, 'auto');
-      setTimeout(() => { isJumping = false; }, 50);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          isJumping = false;
+        });
+      });
     }
   }, { passive: true });
 })();

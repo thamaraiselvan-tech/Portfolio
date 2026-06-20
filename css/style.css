@@ -1489,6 +1489,8 @@ body.loaded .hero-right.reveal-item {
   padding: 20px 4px 40px; /* space for card shadows and scrollbar spacing */
   scrollbar-width: none; /* Hide scrollbar for Firefox */
   -webkit-overflow-scrolling: touch;
+  perspective: 1200px; /* Enable 3D depth for spherical scrolling */
+  transform-style: preserve-3d;
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
@@ -1497,8 +1499,7 @@ body.loaded .hero-right.reveal-item {
 }
 
 .project-card {
-  display: flex;
-  flex-direction: row; /* Horizontal layout on desktop */
+  display: block; /* Inner wrapper handles the flex row */
   flex: 0 0 100%; /* Show one card at a time */
   height: 380px; /* Fixed height reduced for a more compact size */
   scroll-snap-align: center;
@@ -1507,11 +1508,20 @@ body.loaded .hero-right.reveal-item {
   border-radius: 26px;
   overflow: hidden;
   backdrop-filter: blur(12px);
-  will-change: transform;
+  will-change: transform, opacity;
   cursor: none;
   position: relative;
-  transition: border-color 0.6s ease, box-shadow 0.6s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: border-color 0.6s ease, box-shadow 0.6s ease; /* Removed transform transition to avoid scroll lag */
   transform-style: preserve-3d;
+}
+
+.project-card-inner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .project-card:hover {
@@ -2228,6 +2238,86 @@ body.loaded .hero-right.reveal-item {
   fill: currentColor;
 }
 
+.contact-form-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border-2);
+  border-radius: 28px;
+  padding: 40px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  position: relative;
+  overflow: hidden;
+}
+
+.terminal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+  border-bottom: 1px dashed rgba(var(--accent-rgb), 0.2);
+  padding-bottom: 14px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 1.5px;
+}
+
+.terminal-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--accent);
+  font-weight: 700;
+  text-shadow: 0 0 8px rgba(var(--accent-rgb), 0.4);
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+}
+
+.status-dot.blinking {
+  animation: terminal-blink 1.5s infinite alternate;
+}
+
+@keyframes terminal-blink {
+  0% { opacity: 0.3; }
+  100% { opacity: 1; filter: brightness(1.3); }
+}
+
+.terminal-decor {
+  color: var(--text-3);
+}
+
+.contact-form-panel .form-group input,
+.contact-form-panel .form-group textarea {
+  background: rgba(8, 8, 18, 0.4); /* Darker input background for better contrast */
+}
+
+/* Aesthetic and simple button styles for the contact form panel */
+.contact-form-panel .btn-primary {
+  background: transparent;
+  color: var(--accent);
+  border: 1.5px solid rgba(var(--accent-rgb), 0.35);
+  box-shadow: none;
+  transition: all 0.4s var(--ease-out-expo);
+}
+
+.contact-form-panel .btn-primary:hover {
+  background: rgba(var(--accent-rgb), 0.08);
+  border-color: var(--accent);
+  box-shadow: 0 0 25px rgba(var(--accent-rgb), 0.25);
+  color: var(--accent);
+}
+
+@media (max-width: 768px) {
+  .contact-form-panel {
+    padding: 24px;
+  }
+}
+
 .contact-form {
   display: flex;
   flex-direction: column;
@@ -2602,9 +2692,13 @@ body.loaded .hero-right.reveal-item {
   }
 
   .project-card {
-    flex: 0 0 100%; /* Show one card at a time */
-    flex-direction: column; /* Stack vertically on mobile */
-    height: auto; /* Reset fixed height */
+    flex: 0 0 100%;
+    height: auto;
+  }
+
+  .project-card-inner {
+    flex-direction: column;
+    height: auto;
   }
 
   .project-image {
