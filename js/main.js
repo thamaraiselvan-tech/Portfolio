@@ -860,13 +860,49 @@ contactForm.addEventListener('submit', (e) => {
   const cards = grid.querySelectorAll('.project-card');
   if (!cards.length) return;
 
+  // Clone cards for infinite loop scrolling
+  const firstClone = cards[0].cloneNode(true);
+  const lastClone = cards[cards.length - 1].cloneNode(true);
+  grid.appendChild(firstClone);
+  grid.insertBefore(lastClone, cards[0]);
+
+  // Init hover effects (tilt and glow) on clones
+  initCloneEffects(firstClone);
+  initCloneEffects(lastClone);
+
+  function initCloneEffects(card) {
+    if (window.matchMedia('(hover: none)').matches) return;
+    card.addEventListener('mousemove', (e) => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      card.style.transform = `perspective(700px) rotateX(${y * -14}deg) rotateY(${x * 14}deg) scale(1.03)`;
+    });
+    card.addEventListener('mouseenter', () => { card.style.transition = 'none'; });
+    card.addEventListener('mouseleave', () => {
+      card.style.transition = 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
+      card.style.transform = 'perspective(700px) rotateX(0) rotateY(0) scale(1)';
+    });
+    card.addEventListener('mousemove', (e) => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--glow-x', (e.clientX - r.left) + 'px');
+      card.style.setProperty('--glow-y', (e.clientY - r.top) + 'px');
+    });
+  }
+
+  // Set initial scroll to first real card (index 1)
+  scrollToCard(1, 'auto');
+  window.addEventListener('load', () => {
+    scrollToCard(1, 'auto');
+  });
+
   // Dynamically generate pagination dots
   cards.forEach((_, idx) => {
     const dot = document.createElement('button');
     dot.className = `carousel-dot${idx === 0 ? ' active' : ''}`;
     dot.setAttribute('aria-label', `Go to project ${idx + 1}`);
     dot.addEventListener('click', () => {
-      scrollToCard(idx);
+      scrollToCard(idx + 1);
       resetAutoplay();
     });
     dotsContainer.appendChild(dot);
@@ -875,11 +911,12 @@ contactForm.addEventListener('submit', (e) => {
   function getActiveCardIndex() {
     const scrollLeft = grid.scrollLeft;
     const containerWidth = grid.clientWidth;
+    const allCards = grid.querySelectorAll('.project-card');
     
-    let closestIdx = 0;
+    let closestIdx = 1;
     let minDistance = Infinity;
 
-    cards.forEach((card, idx) => {
+    allCards.forEach((card, idx) => {
       const cardCenter = card.offsetLeft + card.clientWidth / 2;
       const viewportCenter = scrollLeft + containerWidth / 2;
       const distance = Math.abs(cardCenter - viewportCenter);
@@ -892,9 +929,10 @@ contactForm.addEventListener('submit', (e) => {
     return closestIdx;
   }
 
-  function scrollToCard(idx) {
-    if (!cards[idx]) return;
-    const card = cards[idx];
+  function scrollToCard(idx, behavior = 'smooth') {
+    const allCards = grid.querySelectorAll('.project-card');
+    if (!allCards[idx]) return;
+    const card = allCards[idx];
     const containerWidth = grid.clientWidth;
     const cardWidth = card.clientWidth;
     const cardLeft = card.offsetLeft;
@@ -902,20 +940,19 @@ contactForm.addEventListener('submit', (e) => {
     
     grid.scrollTo({
       left: targetLeft,
-      behavior: 'smooth'
+      behavior: behavior
     });
   }
 
   // Autoplay functionality
   let autoplayInterval = null;
-  const AUTOPLAY_DELAY = 5000; // Auto scroll every 5 seconds
+  const AUTOPLAY_DELAY = 3000; // Auto scroll every 3 seconds
 
   function startAutoplay() {
     if (autoplayInterval) return;
     autoplayInterval = setInterval(() => {
       const activeIdx = getActiveCardIndex();
-      const nextIdx = (activeIdx + 1) % cards.length;
-      scrollToCard(nextIdx);
+      scrollToCard(activeIdx + 1);
     }, AUTOPLAY_DELAY);
   }
 
@@ -947,9 +984,7 @@ contactForm.addEventListener('submit', (e) => {
   if (prevBtn) {
     prevBtn.addEventListener('click', () => {
       const activeIdx = getActiveCardIndex();
-      let targetIdx = activeIdx - 1;
-      if (targetIdx < 0) targetIdx = cards.length - 1;
-      scrollToCard(targetIdx);
+      scrollToCard(activeIdx - 1);
       resetAutoplay();
     });
   }
@@ -958,18 +993,38 @@ contactForm.addEventListener('submit', (e) => {
   if (nextBtn) {
     nextBtn.addEventListener('click', () => {
       const activeIdx = getActiveCardIndex();
-      const targetIdx = (activeIdx + 1) % cards.length;
-      scrollToCard(targetIdx);
+      scrollToCard(activeIdx + 1);
       resetAutoplay();
     });
   }
 
-  // Update dots active status on scroll
+  // Update dots active status on scroll, and handle jumps at limits
+  let isJumping = false;
   grid.addEventListener('scroll', () => {
+    if (isJumping) return;
+
+    const allCards = grid.querySelectorAll('.project-card');
     const activeIdx = getActiveCardIndex();
+    
+    // Update active dot indicator
+    let dotIdx = activeIdx - 1;
+    if (dotIdx < 0) dotIdx = cards.length - 1;
+    if (dotIdx >= cards.length) dotIdx = 0;
+
     dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, idx) => {
-      dot.classList.toggle('active', idx === activeIdx);
+      dot.classList.toggle('active', idx === dotIdx);
     });
+
+    // Infinite loop jump checks
+    if (activeIdx === 0) {
+      isJumping = true;
+      scrollToCard(cards.length, 'auto');
+      setTimeout(() => { isJumping = false; }, 50);
+    } else if (activeIdx === allCards.length - 1) {
+      isJumping = true;
+      scrollToCard(1, 'auto');
+      setTimeout(() => { isJumping = false; }, 50);
+    }
   }, { passive: true });
 })();
 
