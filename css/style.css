@@ -1511,7 +1511,7 @@ body.loaded .hero-right.reveal-item {
   will-change: transform, opacity;
   cursor: none;
   position: relative;
-  transition: border-color 0.6s ease, box-shadow 0.6s ease; /* Removed transform transition to avoid scroll lag */
+  transition: border-color 0.6s ease, box-shadow 0.6s ease;
   transform-style: preserve-3d;
 }
 
@@ -1642,6 +1642,8 @@ body.loaded .hero-right.reveal-item {
   font-weight: 800;
   margin-bottom: 14px;
   transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .project-card:hover .project-info h3 {

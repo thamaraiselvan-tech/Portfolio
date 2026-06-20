@@ -870,6 +870,9 @@ contactForm.addEventListener('submit', (e) => {
   const dotsContainer = document.getElementById('carousel-dots');
   if (!grid || !dotsContainer) return;
 
+  let isJumping = false;
+  let scrollTimeout = null;
+
   const prevBtn = document.getElementById('proj-prev');
   const nextBtn = document.getElementById('proj-next');
 
@@ -911,10 +914,8 @@ contactForm.addEventListener('submit', (e) => {
 
   // Set initial scroll to first real card (index 1)
   scrollToCard(1, 'auto');
-  updateSphericalScroll();
   window.addEventListener('load', () => {
     scrollToCard(1, 'auto');
-    updateSphericalScroll();
   });
 
   // Dynamically generate pagination dots
@@ -966,9 +967,11 @@ contactForm.addEventListener('submit', (e) => {
         left: targetLeft,
         behavior: 'auto'
       });
-      // Force a layout reflow to make the scroll position update apply synchronously
-      grid.offsetHeight;
-      grid.style.scrollSnapType = 'x mandatory';
+      
+      // Let layout update first, then restore snapping in next frame
+      requestAnimationFrame(() => {
+        grid.style.scrollSnapType = 'x mandatory';
+      });
     } else {
       grid.scrollTo({
         left: targetLeft,
@@ -977,33 +980,7 @@ contactForm.addEventListener('submit', (e) => {
     }
   }
 
-  // Spherical 3D scrolling calculation function
-  function updateSphericalScroll() {
-    const containerCenter = grid.scrollLeft + grid.clientWidth / 2;
-    const allCards = grid.querySelectorAll('.project-card');
-    if (!allCards.length) return;
 
-    allCards.forEach((card) => {
-      const cardCenter = card.offsetLeft + card.clientWidth / 2;
-      const distance = cardCenter - containerCenter;
-      
-      // Normalized distance: -1 is left edge, 0 is center, 1 is right edge of viewport.
-      // Clamp values and fallback divisor to 1 to prevent division by zero or NaN values.
-      const divisor = grid.clientWidth / 2 || 1;
-      const normalizedDistance = Math.max(-2, Math.min(2, distance / divisor));
-
-      // Spherical 3D calculations
-      const rotateY = normalizedDistance * -25; // Rotates Y up to 25deg
-      const translateZ = Math.abs(normalizedDistance) * -120; // Pushed back in 3D space
-      const translateX = normalizedDistance * -35; // Slight pull-in for curve
-      const scale = 1 - Math.min(Math.abs(normalizedDistance) * 0.12, 0.12);
-      const opacity = 1 - Math.min(Math.abs(normalizedDistance) * 0.45, 0.45);
-
-      // Apply the 3D spherical scroll transform
-      card.style.transform = `translate3d(${translateX}px, 0, ${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`;
-      card.style.opacity = opacity;
-    });
-  }
 
   // Autoplay functionality
   let autoplayInterval = null;
@@ -1059,18 +1036,8 @@ contactForm.addEventListener('submit', (e) => {
     });
   }
 
-  // Update dots active status on scroll, and handle jumps at limits
-  let isJumping = false;
-  grid.addEventListener('scroll', () => {
-    // Run spherical scroll update on every scroll event
-    updateSphericalScroll();
-
-    if (isJumping) return;
-
-    const allCards = grid.querySelectorAll('.project-card');
+  function updateDots() {
     const activeIdx = getActiveCardIndex();
-    
-    // Update active dot indicator
     let dotIdx = activeIdx - 1;
     if (dotIdx < 0) dotIdx = cards.length - 1;
     if (dotIdx >= cards.length) dotIdx = 0;
@@ -1078,12 +1045,17 @@ contactForm.addEventListener('submit', (e) => {
     dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, idx) => {
       dot.classList.toggle('active', idx === dotIdx);
     });
+  }
 
-    // Infinite loop jump checks
+  function handleLoopJump() {
+    if (isJumping) return;
+
+    const allCards = grid.querySelectorAll('.project-card');
+    const activeIdx = getActiveCardIndex();
+
     if (activeIdx === 0) {
       isJumping = true;
       scrollToCard(cards.length, 'auto');
-      // Reset isJumping flag after the browser has completed rendering the jump
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           isJumping = false;
@@ -1098,6 +1070,17 @@ contactForm.addEventListener('submit', (e) => {
         });
       });
     }
+  }
+
+  grid.addEventListener('scroll', () => {
+    // Update dots active status in real-time
+    updateDots();
+
+    // Debounce loop jump to run only when scroll has settled
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      handleLoopJump();
+    }, 150);
   }, { passive: true });
 })();
 
