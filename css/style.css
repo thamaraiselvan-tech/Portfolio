@@ -1061,7 +1061,7 @@ body.loaded .hero-right.reveal-item {
 
 /* ═══════════ SECTIONS ═══════════ */
 .section {
-  padding: 90px 0;
+  padding: 60px 0;
   position: relative;
   z-index: 2;
 }
@@ -1083,7 +1083,7 @@ body.loaded .hero-right.reveal-item {
 
 .section-header {
   text-align: center;
-  margin-bottom: 72px;
+  margin-bottom: 52px;
 }
 
 .section-tag {
@@ -1141,7 +1141,7 @@ body.loaded .hero-right.reveal-item {
 /* ═══════════ MARQUEE ═══════════ */
 .marquee {
   overflow: hidden;
-  padding: 48px 0;
+  padding: 36px 0;
   background: var(--bg-2);
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
@@ -2418,7 +2418,7 @@ body.loaded .hero-right.reveal-item {
 }
 
 .footer-big-text {
-  padding: 90px 28px 70px;
+  padding: 60px 28px 48px;
   text-align: center;
 }
 
@@ -2823,7 +2823,15 @@ body.loaded .hero-right.reveal-item {
   }
 
   .section {
-    padding: 70px 0;
+    padding: 44px 0;
+  }
+
+  .section-header {
+    margin-bottom: 40px;
+  }
+
+  .footer-big-text {
+    padding: 48px 16px 36px;
   }
 
   .section-rounded {
@@ -2898,7 +2906,7 @@ body.loaded .hero-right.reveal-item {
   }
 
   .footer-big-text h2 {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
   }
 
   .achievement-modal {

@@ -406,8 +406,19 @@ window.addEventListener('scroll', updateActive, { passive: true });
 menuToggle.addEventListener('click', () => { menuToggle.classList.toggle('active'); navMenu.classList.toggle('active'); });
 navLinks.forEach(l => l.addEventListener('click', () => { menuToggle.classList.remove('active'); navMenu.classList.remove('active'); }));
 
-/* Force Dark Theme */
-document.documentElement.setAttribute('data-theme', 'dark');
+/* Theme Toggle */
+const themeToggle = document.getElementById('theme-toggle');
+function setTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  localStorage.setItem('theme', t);
+  if (themeToggle) themeToggle.textContent = t === 'dark' ? '☀️' : '🌙';
+}
+setTheme(localStorage.getItem('theme') || 'dark');
+if (themeToggle) {
+  themeToggle.addEventListener('click', () => {
+    setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  });
+}
 
 /* ═══════════════════════════════════
    6. SCROLL ANIMATIONS
