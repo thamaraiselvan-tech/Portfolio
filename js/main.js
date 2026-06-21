@@ -19,7 +19,6 @@ const navbar = document.querySelector('.navbar');
 const navLinks = document.querySelectorAll('.nav-link');
 const menuToggle = document.getElementById('menu-toggle');
 const navMenu = document.getElementById('nav-links');
-const themeToggle = document.getElementById('theme-toggle');
 const sections = document.querySelectorAll('section[id]');
 const contactForm = document.getElementById('contact-form');
 const formStatus = document.getElementById('form-status');
@@ -407,16 +406,8 @@ window.addEventListener('scroll', updateActive, { passive: true });
 menuToggle.addEventListener('click', () => { menuToggle.classList.toggle('active'); navMenu.classList.toggle('active'); });
 navLinks.forEach(l => l.addEventListener('click', () => { menuToggle.classList.remove('active'); navMenu.classList.remove('active'); }));
 
-/* Theme Toggle */
-function setTheme(t) {
-  document.documentElement.setAttribute('data-theme', t);
-  localStorage.setItem('theme', t);
-  themeToggle.textContent = t === 'dark' ? '☀️' : '🌙';
-}
-setTheme(localStorage.getItem('theme') || 'dark');
-themeToggle.addEventListener('click', () => {
-  setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
-});
+/* Force Dark Theme */
+document.documentElement.setAttribute('data-theme', 'dark');
 
 /* ═══════════════════════════════════
    6. SCROLL ANIMATIONS
