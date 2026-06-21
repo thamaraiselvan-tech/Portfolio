@@ -190,8 +190,6 @@ const scrollProgress = document.getElementById('scroll-progress');
    3. CUSTOM CURSOR + GLOW TRAIL
    ═══════════════════════════════════ */
 (function () {
-  if (window.matchMedia('(hover: none)').matches || window.matchMedia('(pointer: coarse)').matches) return;
-
   const dot = document.getElementById('cursor-dot');
   const ring = document.getElementById('cursor-ring');
   const glow = document.getElementById('cursor-glow');
@@ -214,11 +212,11 @@ const scrollProgress = document.getElementById('scroll-progress');
     window.addEventListener('resize', resizeCanvas);
   }
 
-  document.addEventListener('mousemove', (e) => {
+  function handleMove(clientX, clientY) {
     const prevX = mx;
     const prevY = my;
-    mx = e.clientX;
-    my = e.clientY;
+    mx = clientX;
+    my = clientY;
     dot.style.transform = `translate(${mx - 4}px, ${my - 4}px)`;
 
     // Spawn sparks based on speed
@@ -240,6 +238,16 @@ const scrollProgress = document.getElementById('scroll-progress');
         });
       }
     }
+  }
+
+  document.addEventListener('mousemove', (e) => {
+    // Fade in cursor if it was hidden
+    if (dot.style.opacity !== '1') {
+      dot.style.opacity = '1';
+      ring.style.opacity = '1';
+      if (canvas) canvas.style.opacity = '1';
+    }
+    handleMove(e.clientX, e.clientY);
   });
 
   document.addEventListener('mouseenter', () => {
@@ -254,6 +262,49 @@ const scrollProgress = document.getElementById('scroll-progress');
     if (glow) glow.style.opacity = '0';
     if (canvas) canvas.style.opacity = '0';
   });
+
+  // Touch tracking for mobile swipe cursor animations
+  document.addEventListener('touchstart', (e) => {
+    if (e.touches.length > 0) {
+      dot.style.opacity = '1';
+      ring.style.opacity = '1';
+      if (canvas) canvas.style.opacity = '1';
+      if (glow) glow.style.opacity = '1';
+      
+      const t = e.touches[0];
+      mx = t.clientX;
+      my = t.clientY;
+      rx = mx;
+      ry = my;
+      gx = mx;
+      gy = my;
+      dot.style.transform = `translate(${mx - 4}px, ${my - 4}px)`;
+      ring.style.transform = `translate(${rx - 24}px, ${ry - 24}px)`;
+      if (glow) glow.style.transform = `translate(${gx - 150}px, ${gy - 150}px)`;
+
+      // Active state for touch targets
+      const target = e.target.closest('a, button, .project-card, .skill-card, .achievement-card, .btn, input, textarea, .interest-tag, .social-link, .skill-tag, .gallery-item');
+      if (target) {
+        ring.classList.add('active');
+        dot.classList.add('active');
+      } else {
+        ring.classList.remove('active');
+        dot.classList.remove('active');
+      }
+    }
+  }, { passive: true });
+
+  document.addEventListener('touchmove', (e) => {
+    if (e.touches.length > 0) {
+      handleMove(e.touches[0].clientX, e.touches[0].clientY);
+    }
+  }, { passive: true });
+
+  document.addEventListener('touchend', () => {
+    dot.style.opacity = '0';
+    ring.style.opacity = '0';
+    if (glow) glow.style.opacity = '0';
+  }, { passive: true });
 
   function loop() {
     rx += (mx - rx) * 0.12;

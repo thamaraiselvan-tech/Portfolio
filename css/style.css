@@ -323,11 +323,6 @@ img {
   height: 100vh;
 }
 
-body.loaded .cursor-dot,
-body.loaded .cursor-ring {
-  opacity: 1;
-}
-
 .cursor-dot {
   width: 8px;
   height: 8px;
@@ -396,17 +391,6 @@ body.loaded .cursor-ring {
 
   100% {
     filter: hue-rotate(360deg);
-  }
-}
-
-@media (hover: none),
-(pointer: coarse) {
-
-  .cursor-dot,
-  .cursor-ring,
-  .cursor-glow,
-  .cursor-canvas {
-    display: none !important;
   }
 }
 
@@ -2617,25 +2601,91 @@ body.loaded .hero-right.reveal-item {
     cursor: auto;
   }
 
+  .nav-logo {
+    display: none;
+  }
+
   .nav-links {
     position: fixed;
     top: 0;
-    right: -100%;
-    width: 82%;
+    left: -100%;
+    right: auto;
+    width: 280px;
     height: 100vh;
-    background: var(--bg-2);
+    background: rgba(6, 6, 16, 0.95);
+    backdrop-filter: blur(35px);
+    -webkit-backdrop-filter: blur(35px);
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-    transition: right 0.5s var(--ease-out-expo);
-    border-left: 1px solid var(--border);
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 110px 28px 40px;
+    gap: 16px;
+    transition: left 0.6s var(--ease-out-expo);
+    border-right: 1px solid rgba(var(--accent-rgb), 0.15);
     z-index: 999;
-    backdrop-filter: blur(24px);
+    box-shadow: 25px 0 70px rgba(0, 0, 0, 0.7);
+    counter-reset: nav-counter;
   }
 
   .nav-links.active {
-    right: 0;
+    left: 0;
+  }
+
+  .nav-links li {
+    width: 100%;
+    counter-increment: nav-counter;
+    transform: translateX(-30px);
+    opacity: 0;
+    transition: transform 0.5s var(--ease-out-expo), opacity 0.5s ease;
+  }
+
+  .nav-links.active li {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  .nav-links.active li:nth-child(1) { transition-delay: 0.1s; }
+  .nav-links.active li:nth-child(2) { transition-delay: 0.15s; }
+  .nav-links.active li:nth-child(3) { transition-delay: 0.2s; }
+  .nav-links.active li:nth-child(4) { transition-delay: 0.25s; }
+  .nav-links.active li:nth-child(5) { transition-delay: 0.3s; }
+  .nav-links.active li:nth-child(6) { transition-delay: 0.35s; }
+  .nav-links.active li:nth-child(7) { transition-delay: 0.4s; }
+  .nav-links.active li:nth-child(8) { transition-delay: 0.45s; }
+
+  .nav-links .nav-link {
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-2);
+    width: 100%;
+    padding: 14px 20px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    background: transparent;
+  }
+
+  .nav-links .nav-link::before {
+    content: "0" counter(nav-counter) ".";
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--accent);
+    margin-right: 14px;
+    opacity: 0.65;
+  }
+
+  .nav-links .nav-link:hover,
+  .nav-links .nav-link.active {
+    color: var(--accent);
+    background: rgba(var(--accent-rgb), 0.08);
+    transform: translateX(6px);
+  }
+
+  .nav-links .nav-link::after {
+    display: none !important;
   }
 
   .menu-toggle {
@@ -2643,17 +2693,49 @@ body.loaded .hero-right.reveal-item {
   }
 
   .hero-content {
+    display: flex;
     flex-direction: column;
     text-align: center;
-    gap: 44px;
+    gap: 28px;
+    align-items: center;
   }
 
   .hero-left {
-    order: 2;
+    display: contents;
+  }
+
+  .hero-badge {
+    order: 1;
+    margin-bottom: 0px !important;
+    align-self: center;
   }
 
   .hero-right {
-    order: 1;
+    order: 2;
+    align-self: center;
+  }
+
+  .hero-title {
+    order: 3;
+    margin-top: 10px;
+  }
+
+  .hero-subtitle {
+    order: 4;
+  }
+
+  .hero-description {
+    order: 5;
+    margin-bottom: 24px !important;
+  }
+
+  .hero-cta {
+    order: 6;
+    margin-bottom: 32px !important;
+  }
+
+  .hero-stats {
+    order: 7;
   }
 
   .hero-portrait {
@@ -2719,7 +2801,9 @@ body.loaded .hero-right.reveal-item {
   }
 
   .contact-grid {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 40px;
   }
 
   .skills-grid {
