@@ -2747,6 +2747,7 @@ body.loaded .hero-right.reveal-item {
   .hero-portrait {
     width: 200px;
     height: 240px;
+    margin: 48px auto;
   }
 
   .portrait-placeholder {
@@ -2863,6 +2864,7 @@ body.loaded .hero-right.reveal-item {
   .hero-portrait {
     width: 160px;
     height: 200px;
+    margin: 44px auto;
   }
 
   .portrait-placeholder {
